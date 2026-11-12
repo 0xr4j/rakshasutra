@@ -1,0 +1,43 @@
+% Shared look of the Rakshasutra white paper and book.
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{charter}
+\usepackage[scaled=0.9]{helvet}
+\usepackage{courier}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs,array,longtable}
+\usepackage[table]{xcolor}
+\usepackage{textcomp}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning}
+\usepackage[most]{tcolorbox}
+\definecolor{rsink}{HTML}{171A2B}
+\definecolor{rsred}{HTML}{C0271D}
+\definecolor{rspaper}{HTML}{F6F1E7}
+\definecolor{rsmuted}{HTML}{6A6F85}
+\definecolor{rsindigo}{HTML}{2F4B9A}
+\definecolor{rsrule}{HTML}{D9D2C2}
+\usepackage[colorlinks=true,allcolors=rsindigo]{hyperref}
+\usepackage{xurl}
+\urlstyle{same}
+\input{../generated/numbers.tex}
+\input{../generated/tables.tex}
+\graphicspath{{../generated/fig/}}
+\setlist{nosep,leftmargin=1.4em,topsep=3pt}
+\renewcommand{\arraystretch}{1.18}
+\arrayrulecolor{rsink}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\Kmaster}{K_{\mathrm{master}}}
+\newcommand{\cmac}[2]{\operatorname{CMAC}_{#1}\!\left(#2\right)}
+\newcommand{\simnote}{\textsf{\footnotesize\color{rsmuted}calculated}}
+% A box for a finding or a caveat
+\newtcolorbox{finding}[1][]{enhanced,breakable,colback=rspaper,colframe=rspaper,boxrule=0pt,arc=0pt,left=9pt,right=9pt,
+  top=6pt,bottom=6pt,borderline west={2.4pt}{0pt}{rsred},fontupper=\small,#1}
+\newtcolorbox{algo}[1]{enhanced,breakable,colback=white,colframe=rsink,boxrule=0.5pt,arc=0pt,left=6pt,right=6pt,top=5pt,
+  bottom=5pt,title={\sffamily\small\bfseries #1},coltitle=white,colbacktitle=rsink,fontupper=\footnotesize}
+% the thread: a twisted two-strand rule
+\newcommand{\thread}[1][\linewidth]{\par\noindent\begin{tikzpicture}\draw[rsred,line width=1.1pt,line cap=butt](0,0)--(\dimexpr#1-1.2pt\relax,0);
+  \foreach \x in {0.5}{\fill[rsred](\x*#1,0) circle(2.1pt);\fill[white](\x*#1,0) circle(0.9pt);}\end{tikzpicture}\par}

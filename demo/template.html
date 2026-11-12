@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Rakshasutra Explorer</title>
+<meta name="description" content="Build a signed Rakshasutra frame, crowd a LoRaWAN gateway cell, fill a Bloom filter and drain a wristband battery, in your browser. The same formulas as the Python reference.">
+<meta name="theme-color" content="#F6F1E7">
+<meta property="og:title" content="Rakshasutra Explorer"><meta property="og:image" content="https://0xr4j.github.io/rakshasutra/img/og-card.png">
+<link rel="icon" href="rs-icon.svg" type="image/svg+xml"><link rel="icon" href="rs-icon-32.png" sizes="32x32" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+{{CSS}}
+header{padding:54px 0 26px}header h1{font-size:clamp(36px,5.6vw,60px)}header p{margin-top:16px;color:#33384F;font-size:18px}
+.panel{border-top:1.5px solid var(--ink);padding:34px 0 46px;display:grid;grid-template-columns:minmax(240px,330px) 1fr;gap:28px 48px}
+@media (max-width:820px){.panel{grid-template-columns:1fr}}
+.panel h2{font-size:28px;margin-bottom:10px}.panel .why{font-size:15.5px;color:#3A3F55}
+.ctl{display:grid;gap:16px;margin-top:20px}
+label{display:grid;gap:6px;font:500 13px var(--mono);color:var(--muted)}label output{color:var(--ink);float:right}
+label span{display:flex;justify-content:space-between;gap:10px}
+input[type=range]{width:100%;accent-color:var(--red);height:28px;margin:0}
+input[type=text]{font:15px var(--mono);padding:9px 10px;border:1.5px solid var(--ink);background:#fff;color:var(--ink);width:100%;border-radius:2px}
+.seg{display:inline-flex;border:1.5px solid var(--ink);border-radius:2px;overflow:hidden;flex-wrap:wrap}
+.seg button{font:500 13px var(--mono);padding:8px 12px;border:0;background:transparent;color:var(--ink);cursor:pointer;min-height:38px}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.out{min-width:0}
+.bytes{display:grid;grid-template-columns:repeat(15,minmax(0,1fr));gap:3px}
+.bytes b{font:500 clamp(10px,1.5vw,15px) var(--mono);background:#fff;border:1px solid var(--ink);padding:10px 0;text-align:center}
+.bytes b.id,.bytes b.mic{background:var(--ink);color:var(--paper)}.bytes b.sos{background:var(--red);border-color:var(--red);color:#fff}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;margin-top:18px;font:14px var(--mono)}.kv dt{color:var(--muted)}.kv dd{margin:0;word-break:break-all}
+.bars{display:grid;gap:12px}
+.bar{display:grid;grid-template-columns:minmax(120px,200px) 1fr 62px;gap:12px;align-items:center;font-size:14.5px}
+.bar .t{height:20px;background:var(--paper2);position:relative;border-radius:0 3px 3px 0;overflow:hidden}
+.bar .t i{position:absolute;inset:0 auto 0 0;border-radius:0 3px 3px 0;transition:width .25s}
+.bar .n{font:500 14px var(--mono);text-align:right}
+.note{font-size:14px;color:var(--muted);margin-top:16px;max-width:64ch}
+.big{font:520 clamp(40px,6vw,64px)/1 var(--serif);letter-spacing:-.02em}.big small{font-size:.4em;font-weight:400;margin-left:4px}
+.pair{display:flex;flex-wrap:wrap;gap:22px 48px;align-items:flex-end}.pair div p{font-size:14px;color:var(--muted);margin:6px 0 0}
+.grid512{display:grid;grid-template-columns:repeat(32,1fr);gap:1px;max-width:420px;margin-top:18px}
+.grid512 i{aspect-ratio:1;background:var(--paper2)}.grid512 i.on{background:var(--ink)}
+.state{display:inline-block;font:500 13px var(--mono);padding:3px 9px;border-radius:3px;border:1.5px solid}
+.state.ok{color:#0B6B62;border-color:#0B6B62}.state.bad{color:var(--red);border-color:var(--red)}
+.rangebar{height:34px;background:var(--paper2);position:relative;margin-top:18px}
+.rangebar i{position:absolute;inset:0 auto 0 0;background:var(--red);transition:width .25s}
+.rangebar em{position:absolute;top:-6px;bottom:-6px;width:0;border-left:2px dashed var(--ink)}
+.axis{display:flex;justify-content:space-between;font:12px var(--mono);color:var(--muted);margin-top:6px}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+  <a class="brand" href="./"><span class="knot"></span>Rakshasutra</a>
+  <div class="links"><a href="./">Home</a><a href="explorer.html" aria-current="page">Explorer</a><a href="audit.html">Audit</a>
+  <a href="A-Thread-Through-the-Crowd-Rakshasutra.pdf">Book</a><a href="https://github.com/0xr4j/rakshasutra">GitHub</a></div>
+</div></nav>
+<header><div class="wrap">
+  <span class="eyebrow">Explorer</span>
+  <h1>Move a slider. Watch the design bend.</h1>
+  <p>Five parts of Rakshasutra, computed in your browser by the same formulas as the Python reference; a test keeps the two in step. Everything here is calculated. Nothing has been measured.</p>
+</div></header>
+<main class="wrap">
+
+<section class="panel" style="padding-top:34px">
+  <div><h2>The signed frame</h2><p class="why">Fifteen bytes, built with real AES-CMAC. Change the slot and the identifier, the address and the signature all change. Press SOS and only two bytes of content differ, but the signature is new.</p>
+    <div class="ctl">
+      <label>Tag key, 16 bytes in hex (a demonstration key; never type a real one into a web page)<input type="text" id="fKey" value="000102030405060708090a0b0c0d0e0f" maxlength="32" spellcheck="false" autocomplete="off"></label>
+      <label><span>Slot counter <output id="fSlotO"></output></span><input type="range" id="fSlot" min="0" max="96" value="17"></label>
+      <div class="seg" role="group" aria-label="SOS"><button id="fSosOff" aria-pressed="true">Button idle</button><button id="fSosOn" aria-pressed="false">SOS pressed</button></div>
+    </div></div>
+  <div class="out"><div class="bytes" id="fBytes"></div>
+    <dl class="kv"><dt>Rolling ID</dt><dd id="fId"></dd><dt>Radio address</dt><dd id="fMac"></dd><dt>MIC</dt><dd id="fMic"></dd><dt>Time since power-on</dt><dd id="fAge"></dd></dl>
+    <p class="note">Dark cells are AES-CMAC output. A listener without the key sees them as random and cannot link one slot to the next.</p></div>
+</section>
+
+<section class="panel">
+  <div><h2>A gateway cell in a surge</h2><p class="why">Every report costs LoRa airtime on eight shared channels. Crowd the cell and see which design keeps its frames.</p>
+    <div class="ctl">
+      <label><span>Wristbands in the cell <output id="cTagsO"></output></span><input type="range" id="cTags" min="100" max="5000" step="100" value="3000"></label>
+      <label><span>Poles served by the gateway <output id="cPolesO"></output></span><input type="range" id="cPoles" min="20" max="80" step="1" value="60"></label>
+    </div></div>
+  <div class="out"><div class="bars" id="cBars"></div>
+    <p class="note" id="cNote"></p></div>
+</section>
+
+<section class="panel">
+  <div><h2>The 64-byte heartbeat</h2><p class="why">A pole says who is present with 512 bits and three probes per wristband. It never misses someone who is there. As it fills, it starts to say yes for people who are not.</p>
+    <div class="ctl"><label><span>Wristbands at the pole <output id="bTagsO"></output></span><input type="range" id="bTags" min="0" max="400" step="5" value="50"></label></div></div>
+  <div class="out"><div class="pair"><div><div class="big" id="bFpr"></div><p>false positives</p></div><div><div class="big" id="bFill"></div><p>of the 512 bits set</p></div></div>
+    <div class="grid512" id="bGrid" aria-hidden="true"></div>
+    <p class="note">The server only asks a heartbeat about wristbands it already places at that pole, so false positives stay rare in use. Hub poles are on fibre and can send a larger filter.</p></div>
+</section>
+
+<section class="panel">
+  <div><h2>Battery, and the cold buzzer</h2><p class="why">Coded PHY buys range and pays in airtime. And at −5 °C a coin cell's internal resistance turns a 32 mA buzzer pulse into a brown-out unless the capacitor is large enough.</p>
+    <div class="ctl">
+      <div class="seg" role="group" aria-label="PHY"><button data-phy="table" aria-pressed="false">1M PHY</button><button data-phy="coded" aria-pressed="true">Coded PHY</button></div>
+      <div class="seg" role="group" aria-label="Temperature"><button data-cold="0" aria-pressed="true">25 °C</button><button data-cold="1" aria-pressed="false">−5 °C</button></div>
+      <label><span>Hours a day on the trek <output id="pHoursO"></output></span><input type="range" id="pHours" min="4" max="24" step="1" value="14"></label>
+      <label><span>Hold-up capacitor <output id="pCapO"></output></span><input type="range" id="pCap" min="0" max="3000" step="10" value="100"></label>
+      <label><span>Buzzer and LED pulse <output id="pMaO"></output></span><input type="range" id="pMa" min="5" max="40" step="1" value="32"></label>
+    </div></div>
+  <div class="out"><div class="pair"><div><div class="big" id="pLife"></div><p id="pUa"></p></div><div><div class="big" id="pV"></div><p>lowest supply in a 100 ms pulse at −5 °C <span class="state" id="pState"></span></p></div></div>
+    <p class="note">Currents are the white paper's design values for a 620 mAh CR2450. The chip resets below 1.70 V.</p></div>
+</section>
+
+<section class="panel">
+  <div><h2>Range under the roof</h2><p class="why">The paper's path-loss model: 40.2 dB at one metre, exponent 2.15, 4.2 dB of shadowing. The bar is the distance at which 98% of frames still clear the receiver's sensitivity.</p>
+    <div class="ctl">
+      <div class="seg" role="group" aria-label="PHY for range"><button data-sens="-96" aria-pressed="false">1M PHY</button><button data-sens="-103" aria-pressed="true">Coded PHY</button></div>
+      <div class="seg" role="group" aria-label="Pole mounting"><button data-roof="0" aria-pressed="true">Pole under the roof</button><button data-roof="24.1" aria-pressed="false">Pole above the roof</button></div>
+      <label><span>Transmit power <output id="lTxO"></output></span><input type="range" id="lTx" min="-4" max="8" step="1" value="8"></label>
+      <label><span>Body loss in the crowd <output id="lBodyO"></output></span><input type="range" id="lBody" min="0" max="24" step="1" value="14"></label>
+    </div></div>
+  <div class="out"><div class="big" id="lRange"></div>
+    <div class="rangebar"><i id="lBar"></i><em style="left:36%" title="pole spacing"></em></div>
+    <div class="axis"><span>0</span><span>108 m: pole spacing on the tracks</span><span>300 m</span></div>
+    <p class="note" id="lNote"></p></div>
+</section>
+</main>
+<footer><div class="wrap"><p><strong style="color:var(--ink)">Rakshasutra Explorer</strong> · built from <code>demo/template.html</code> and <code>demo/kernel.js</code> by <code>demo/build_web.py</code> · a design study, not a safety system.</p></div></footer>
+<script>
+{{KERNEL}}
+(function(){
+  var $=function(id){return document.getElementById(id)},pct=function(x,n){return (100*x).toFixed(n===undefined?1:n)+'%'};
+  function seg(sel,fn){var bs=document.querySelectorAll(sel);bs.forEach(function(b){b.addEventListener('click',function(){bs.forEach(function(o){o.setAttribute('aria-pressed',o===b)});fn(b)})})}
+  // ---- frame
+  var sos=false;
+  function frame(){var hexs=$('fKey').value.replace(/[^0-9a-fA-F]/g,'');if(hexs.length!==32){$('fBytes').innerHTML='';$('fId').textContent='the key must be 32 hex digits';$('fMac').textContent=$('fMic').textContent=$('fAge').textContent='';return}
+    var key=RS.unhex(hexs),c=+$('fSlot').value,f=RS.buildFrame(key,c,sos?1:0,150,0);$('fSlotO').textContent=c;
+    $('fBytes').innerHTML=Array.from(f,function(b,i){var k=i>=5&&i<=8?'id':i>=11?'mic':(i===9&&sos?'sos':'');return '<b class="'+k+'">'+b.toString(16).padStart(2,'0')+'</b>'}).join('');
+    $('fId').textContent=RS.hex(f.slice(5,9));$('fMic').textContent=RS.hex(f.slice(11));
+    $('fMac').textContent=Array.from(RS.macAddress(key,c),function(x){return x.toString(16).padStart(2,'0')}).join(':');
+    $('fAge').textContent=(c*15>=60?Math.floor(c/4)+' h ':'')+(c*15%60)+' min'}
+  $('fKey').addEventListener('input',frame);$('fSlot').addEventListener('input',frame);
+  $('fSosOn').addEventListener('click',function(){sos=true;$('fSosOn').setAttribute('aria-pressed',true);$('fSosOff').setAttribute('aria-pressed',false);frame()});
+  $('fSosOff').addEventListener('click',function(){sos=false;$('fSosOff').setAttribute('aria-pressed',true);$('fSosOn').setAttribute('aria-pressed',false);frame()});
+  // ---- capacity
+  var DES=[['single','Single-event arrivals','#B8860B',true],['batch','15 s batching','#2F4B9A',true],['rakshasutra','Rakshasutra, as specified','#C0271D',true],['rakshasutra','Rakshasutra, no departure lists','#0E8F84',false]];
+  function cap(){var n=+$('cTags').value,k=+$('cPoles').value;$('cTagsO').textContent=n.toLocaleString();$('cPolesO').textContent=k;
+    var rows=DES.map(function(d){return RS.cellLoad(d[0],n,k,d[3])});
+    $('cBars').innerHTML=DES.map(function(d,i){var l=rows[i].loss;return '<div class="bar"><span>'+d[1]+'</span><span class="t"><i style="width:'+Math.min(100,100*l)+'%;background:'+d[2]+'"></i></span><span class="n">'+pct(l)+'</span></div>'}).join('');
+    var raw=RS.cellLoad('raw',n,k);
+    $('cNote').textContent='Frames lost to collisions (pure ALOHA, no capture). Channel load: '+rows.map(function(r){return pct(r.load)}).join(' · ')+'. Forwarding every ping raw would load the channels to '+pct(raw.load,0)+' and lose '+pct(raw.loss,0)+'.'}
+  $('cTags').addEventListener('input',cap);$('cPoles').addEventListener('input',cap);
+  // ---- bloom (a fixed pseudo-random stream of identifiers, so the picture is stable)
+  var grid=$('bGrid');for(var i=0;i<512;i++)grid.appendChild(document.createElement('i'));
+  function crc16(b){var c=0xffff;b.forEach(function(x){c^=x<<8;for(var j=0;j<8;j++)c=c&0x8000?((c<<1)^0x1021)&0xffff:(c<<1)&0xffff});return c}
+  function fnv(b){var h=0x811c9dc5;b.forEach(function(x){h=Math.imul(h^x,0x01000193)>>>0});return h}
+  function bloom(){var n=+$('bTags').value,bits=new Uint8Array(512),s=12345;$('bTagsO').textContent=n;
+    for(var t=0;t<n;t++){var id=[];for(var j=0;j<4;j++){s=(Math.imul(s,1103515245)+12345)>>>0;id.push((s>>>16)&255)}
+      var h1=crc16(id),h2=fnv(id);for(var p=0;p<3;p++)bits[(h1+p*h2)%512]=1}
+    var set=bits.reduce(function(a,b){return a+b},0);grid.childNodes.forEach(function(c,i){c.className=bits[i]?'on':''});
+    var f=RS.bloomFpr(n);$('bFpr').innerHTML=(100*f).toFixed(f<0.1?1:0)+'<small>%</small>';$('bFill').innerHTML=Math.round(100*set/512)+'<small>%</small>'}
+  $('bTags').addEventListener('input',bloom);
+  // ---- power
+  var phy='coded',cold=false;
+  function power(){var h=+$('pHours').value,c=+$('pCap').value,ma=+$('pMa').value,r=RS.batteryMonths(phy,cold,h);
+    $('pHoursO').textContent=h+' h';$('pCapO').textContent=c+' µF';$('pMaO').textContent=ma+' mA';
+    $('pLife').innerHTML=r.months.toFixed(1)+'<small>months</small>';$('pUa').textContent='on one cell, at '+r.ua.toFixed(1)+' µA while on the trek';
+    var v=RS.pulseVmin(c,ma,100,400);$('pV').innerHTML=v.toFixed(2)+'<small>V</small>';
+    var s=$('pState');s.textContent=v<1.7?'brown-out':'holds';s.className='state '+(v<1.7?'bad':'ok')}
+  seg('[data-phy]',function(b){phy=b.dataset.phy;power()});seg('[data-cold]',function(b){cold=b.dataset.cold==='1';power()});
+  ['pHours','pCap','pMa'].forEach(function(id){$(id).addEventListener('input',power)});
+  // ---- link
+  var sens=-103,roof=0;
+  function link(){var tx=+$('lTx').value,body=+$('lBody').value,d=RS.bleRange(sens,tx,roof,body);
+    $('lTxO').textContent=(tx>0?'+':'')+tx+' dBm';$('lBodyO').textContent=body+' dB';
+    $('lRange').innerHTML=(d<10?d.toFixed(1):Math.round(d))+'<small>m</small>';$('lBar').style.width=Math.min(100,d/3)+'%';
+    $('lNote').textContent=d>=108?'Covers poles 108 m apart.':d>=25?'Covers the 25 m spacing of the hubs, not the 108 m of the tracks.':'Too short even for the hubs.'}
+  seg('[data-sens]',function(b){sens=+b.dataset.sens;link()});seg('[data-roof]',function(b){roof=+b.dataset.roof;link()});
+  $('lTx').addEventListener('input',link);$('lBody').addEventListener('input',link);
+  frame();cap();bloom();power();link();
+})();
+</script>
+</body>
+</html>

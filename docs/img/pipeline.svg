@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 250" role="img" aria-label="Data path: wristband, pole, LoRaWAN, server, alerts."><rect width="1200" height="250" fill="#F6F1E7"/>
+<rect x="20" y="40" width="208" height="150" fill="#fff" stroke="#171A2B" stroke-width="1.5"/>
+<rect x="20" y="40" width="208" height="38" fill="#171A2B"/>
+<text x="34" y="65" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#F6F1E7">1 · Wristband</text>
+<text x="34" y="108" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="14.5" fill="#171A2B">signed 15-byte frame</text>
+<text x="34" y="134" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="14.5" fill="#171A2B">new ID every 15 min</text>
+<text x="34" y="160" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="14.5" fill="#171A2B">SOS button, buzzer</text>
+<path d="M232 115 H251" stroke="#C0271D" stroke-width="2.5"/><path d="M249 109 l9 6 l-9 6 z" fill="#C0271D"/>
+<circle r="4" fill="#C0271D"><animateMotion dur="1.8s" begin="0.0s" repeatCount="indefinite" path="M232 115 H250"/></circle>
+<rect x="260" y="40" width="208" height="150" fill="#fff" stroke="#171A2B" stroke-width="1.5"/>
+<rect x="260" y="40" width="208" height="38" fill="#171A2B"/>
+<text x="274" y="65" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#F6F1E7">2 · Pole</text>
+<text x="274" y="108" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="14.5" fill="#171A2B">scans under the roof</text>
+<text x="274" y="134" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="14.5" fill="#171A2B">reports arrivals once</text>
+<text x="274" y="160" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="14.5" fill="#171A2B">64-byte Bloom heartbeat</text>
+<path d="M472 115 H491" stroke="#C0271D" stroke-width="2.5"/><path d="M489 109 l9 6 l-9 6 z" fill="#C0271D"/>
+<circle r="4" fill="#C0271D"><animateMotion dur="1.8s" begin="0.45s" repeatCount="indefinite" path="M472 115 H490"/></circle>
+<rect x="500" y="40" width="208" height="150" fill="#fff" stroke="#171A2B" stroke-width="1.5"/>
+<rect x="500" y="40" width="208" height="38" fill="#171A2B"/>
+<text x="514" y="65" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#F6F1E7">3 · LoRaWAN</text>
+<text x="514" y="108" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="14.5" fill="#171A2B">IN865, 8 channels, SF7</text>
+<text x="514" y="134" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="14.5" fill="#171A2B">whip above the roof</text>
+<text x="514" y="160" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="14.5" fill="#171A2B">fibre in the two hubs</text>
+<path d="M712 115 H731" stroke="#C0271D" stroke-width="2.5"/><path d="M729 109 l9 6 l-9 6 z" fill="#C0271D"/>
+<circle r="4" fill="#C0271D"><animateMotion dur="1.8s" begin="0.9s" repeatCount="indefinite" path="M712 115 H730"/></circle>
+<rect x="740" y="40" width="208" height="150" fill="#fff" stroke="#171A2B" stroke-width="1.5"/>
+<rect x="740" y="40" width="208" height="38" fill="#171A2B"/>
+<text x="754" y="65" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#F6F1E7">4 · Server</text>
+<text x="754" y="108" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="14.5" fill="#171A2B">resolves the pseudonym</text>
+<text x="754" y="134" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="14.5" fill="#171A2B">verifies every SOS</text>
+<text x="754" y="160" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="14.5" fill="#171A2B">distance on the route graph</text>
+<path d="M952 115 H971" stroke="#C0271D" stroke-width="2.5"/><path d="M969 109 l9 6 l-9 6 z" fill="#C0271D"/>
+<circle r="4" fill="#C0271D"><animateMotion dur="1.8s" begin="1.35s" repeatCount="indefinite" path="M952 115 H970"/></circle>
+<rect x="980" y="40" width="208" height="150" fill="#fff" stroke="#171A2B" stroke-width="1.5"/>
+<rect x="980" y="40" width="208" height="38" fill="#171A2B"/>
+<text x="994" y="65" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="16" font-weight="600" fill="#F6F1E7">5 · Alerts</text>
+<text x="994" y="108" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="14.5" fill="#171A2B">band-to-band tether</text>
+<text x="994" y="134" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="14.5" fill="#171A2B">Class C wake token</text>
+<text x="994" y="160" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="14.5" fill="#171A2B">control-room alarm</text>
+<text x="20" y="226" font-family="'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace" font-size="13" fill="#6A6F85">3,000 wristbands in one gateway cell: 57.6% of frames lost with one uplink per arrival, 21.3% with chunks and the Bloom heartbeat (calculated)</text></svg>

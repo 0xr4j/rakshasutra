@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Rakshasutra Explorer</title>
+<meta name="description" content="Build a signed Rakshasutra frame, crowd a LoRaWAN gateway cell, fill a Bloom filter and drain a wristband battery, in your browser. The same formulas as the Python reference.">
+<meta name="theme-color" content="#F6F1E7">
+<meta property="og:title" content="Rakshasutra Explorer"><meta property="og:image" content="https://0xr4j.github.io/rakshasutra/img/og-card.png">
+<link rel="icon" href="rs-icon.svg" type="image/svg+xml"><link rel="icon" href="rs-icon-32.png" sizes="32x32" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#F6F1E7;--paper2:#EDE6D6;--ink:#171A2B;--muted:#626880;--red:#C0271D;--rule:#D9D2C2;--night:#14172A;--cream:#F6F1E7;
+--serif:"Fraunces",Georgia,serif;--sans:"IBM Plex Sans",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration-color:var(--red);text-underline-offset:3px}a:hover{color:var(--red)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+nav .wrap{display:flex;align-items:center;gap:22px;height:56px;font-size:14px}
+nav .brand{font:600 17px var(--serif);letter-spacing:.01em;text-decoration:none;display:flex;align-items:center;gap:9px;margin-right:auto}
+nav a{text-decoration:none;color:var(--muted)}nav a:hover,nav a[aria-current]{color:var(--ink)}
+nav .links{display:flex;gap:20px;overflow-x:auto;white-space:nowrap}
+.knot{width:13px;height:13px;border-radius:50%;border:2.5px solid var(--red);display:inline-block;flex:none}
+h1,h2,h3{font-family:var(--serif);font-weight:560;line-height:1.08;letter-spacing:-.012em;margin:0;text-wrap:balance}
+h2{font-size:clamp(30px,4.6vw,48px)}h3{font-size:21px;line-height:1.25}
+p{margin:0 0 1em;max-width:66ch;text-wrap:pretty}
+.eyebrow{font:500 12.5px var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--red);margin-bottom:14px;display:block}
+.tag{font:500 11px var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--muted);border:1px solid var(--rule);border-radius:3px;padding:1px 6px;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;gap:8px;font:500 15px var(--sans);padding:11px 18px;border:1.5px solid var(--ink);text-decoration:none;border-radius:2px;background:transparent;color:var(--ink);cursor:pointer}
+.btn.primary{background:var(--red);border-color:var(--red);color:#fff}.btn:hover{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+section{padding:92px 0;position:relative}section.alt{background:var(--paper2)}
+section.dark{background:var(--night);color:var(--cream)}section.dark .eyebrow{color:#EF7A6E}section.dark p{color:#C9CBD8}
+section.dark .tag{border-color:#3A3F5C;color:#A9ADC4}
+.mono{font-family:var(--mono)}
+footer{border-top:1px solid var(--rule);padding:36px 0 56px;font-size:14px;color:var(--muted)}
+footer p{max-width:none}
+@media (max-width:640px){body{font-size:16px}section{padding:64px 0}nav .wrap{gap:14px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+
+header{padding:54px 0 26px}header h1{font-size:clamp(36px,5.6vw,60px)}header p{margin-top:16px;color:#33384F;font-size:18px}
+.panel{border-top:1.5px solid var(--ink);padding:34px 0 46px;display:grid;grid-template-columns:minmax(240px,330px) 1fr;gap:28px 48px}
+@media (max-width:820px){.panel{grid-template-columns:1fr}}
+.panel h2{font-size:28px;margin-bottom:10px}.panel .why{font-size:15.5px;color:#3A3F55}
+.ctl{display:grid;gap:16px;margin-top:20px}
+label{display:grid;gap:6px;font:500 13px var(--mono);color:var(--muted)}label output{color:var(--ink);float:right}
+label span{display:flex;justify-content:space-between;gap:10px}
+input[type=range]{width:100%;accent-color:var(--red);height:28px;margin:0}
+input[type=text]{font:15px var(--mono);padding:9px 10px;border:1.5px solid var(--ink);background:#fff;color:var(--ink);width:100%;border-radius:2px}
+.seg{display:inline-flex;border:1.5px solid var(--ink);border-radius:2px;overflow:hidden;flex-wrap:wrap}
+.seg button{font:500 13px var(--mono);padding:8px 12px;border:0;background:transparent;color:var(--ink);cursor:pointer;min-height:38px}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+.out{min-width:0}
+.bytes{display:grid;grid-template-columns:repeat(15,minmax(0,1fr));gap:3px}
+.bytes b{font:500 clamp(10px,1.5vw,15px) var(--mono);background:#fff;border:1px solid var(--ink);padding:10px 0;text-align:center}
+.bytes b.id,.bytes b.mic{background:var(--ink);color:var(--paper)}.bytes b.sos{background:var(--red);border-color:var(--red);color:#fff}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;margin-top:18px;font:14px var(--mono)}.kv dt{color:var(--muted)}.kv dd{margin:0;word-break:break-all}
+.bars{display:grid;gap:12px}
+.bar{display:grid;grid-template-columns:minmax(120px,200px) 1fr 62px;gap:12px;align-items:center;font-size:14.5px}
+.bar .t{height:20px;background:var(--paper2);position:relative;border-radius:0 3px 3px 0;overflow:hidden}
+.bar .t i{position:absolute;inset:0 auto 0 0;border-radius:0 3px 3px 0;transition:width .25s}
+.bar .n{font:500 14px var(--mono);text-align:right}
+.note{font-size:14px;color:var(--muted);margin-top:16px;max-width:64ch}
+.big{font:520 clamp(40px,6vw,64px)/1 var(--serif);letter-spacing:-.02em}.big small{font-size:.4em;font-weight:400;margin-left:4px}
+.pair{display:flex;flex-wrap:wrap;gap:22px 48px;align-items:flex-end}.pair div p{font-size:14px;color:var(--muted);margin:6px 0 0}
+.grid512{display:grid;grid-template-columns:repeat(32,1fr);gap:1px;max-width:420px;margin-top:18px}
+.grid512 i{aspect-ratio:1;background:var(--paper2)}.grid512 i.on{background:var(--ink)}
+.state{display:inline-block;font:500 13px var(--mono);padding:3px 9px;border-radius:3px;border:1.5px solid}
+.state.ok{color:#0B6B62;border-color:#0B6B62}.state.bad{color:var(--red);border-color:var(--red)}
+.rangebar{height:34px;background:var(--paper2);position:relative;margin-top:18px}
+.rangebar i{position:absolute;inset:0 auto 0 0;background:var(--red);transition:width .25s}
+.rangebar em{position:absolute;top:-6px;bottom:-6px;width:0;border-left:2px dashed var(--ink)}
+.axis{display:flex;justify-content:space-between;font:12px var(--mono);color:var(--muted);margin-top:6px}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+  <a class="brand" href="./"><span class="knot"></span>Rakshasutra</a>
+  <div class="links"><a href="./">Home</a><a href="explorer.html" aria-current="page">Explorer</a><a href="audit.html">Audit</a>
+  <a href="A-Thread-Through-the-Crowd-Rakshasutra.pdf">Book</a><a href="https://github.com/0xr4j/rakshasutra">GitHub</a></div>
+</div></nav>
+<header><div class="wrap">
+  <span class="eyebrow">Explorer</span>
+  <h1>Move a slider. Watch the design bend.</h1>
+  <p>Five parts of Rakshasutra, computed in your browser by the same formulas as the Python reference; a test keeps the two in step. Everything here is calculated. Nothing has been measured.</p>
+</div></header>
+<main class="wrap">
+
+<section class="panel" style="padding-top:34px">
+  <div><h2>The signed frame</h2><p class="why">Fifteen bytes, built with real AES-CMAC. Change the slot and the identifier, the address and the signature all change. Press SOS and only two bytes of content differ, but the signature is new.</p>
+    <div class="ctl">
+      <label>Tag key, 16 bytes in hex (a demonstration key; never type a real one into a web page)<input type="text" id="fKey" value="000102030405060708090a0b0c0d0e0f" maxlength="32" spellcheck="false" autocomplete="off"></label>
+      <label><span>Slot counter <output id="fSlotO"></output></span><input type="range" id="fSlot" min="0" max="96" value="17"></label>
+      <div class="seg" role="group" aria-label="SOS"><button id="fSosOff" aria-pressed="true">Button idle</button><button id="fSosOn" aria-pressed="false">SOS pressed</button></div>
+    </div></div>
+  <div class="out"><div class="bytes" id="fBytes"></div>
+    <dl class="kv"><dt>Rolling ID</dt><dd id="fId"></dd><dt>Radio address</dt><dd id="fMac"></dd><dt>MIC</dt><dd id="fMic"></dd><dt>Time since power-on</dt><dd id="fAge"></dd></dl>
+    <p class="note">Dark cells are AES-CMAC output. A listener without the key sees them as random and cannot link one slot to the next.</p></div>
+</section>
+
+<section class="panel">
+  <div><h2>A gateway cell in a surge</h2><p class="why">Every report costs LoRa airtime on eight shared channels. Crowd the cell and see which design keeps its frames.</p>
+    <div class="ctl">
+      <label><span>Wristbands in the cell <output id="cTagsO"></output></span><input type="range" id="cTags" min="100" max="5000" step="100" value="3000"></label>
+      <label><span>Poles served by the gateway <output id="cPolesO"></output></span><input type="range" id="cPoles" min="20" max="80" step="1" value="60"></label>
+    </div></div>
+  <div class="out"><div class="bars" id="cBars"></div>
+    <p class="note" id="cNote"></p></div>
+</section>
+
+<section class="panel">
+  <div><h2>The 64-byte heartbeat</h2><p class="why">A pole says who is present with 512 bits and three probes per wristband. It never misses someone who is there. As it fills, it starts to say yes for people who are not.</p>
+    <div class="ctl"><label><span>Wristbands at the pole <output id="bTagsO"></output></span><input type="range" id="bTags" min="0" max="400" step="5" value="50"></label></div></div>
+  <div class="out"><div class="pair"><div><div class="big" id="bFpr"></div><p>false positives</p></div><div><div class="big" id="bFill"></div><p>of the 512 bits set</p></div></div>
+    <div class="grid512" id="bGrid" aria-hidden="true"></div>
+    <p class="note">The server only asks a heartbeat about wristbands it already places at that pole, so false positives stay rare in use. Hub poles are on fibre and can send a larger filter.</p></div>
+</section>
+
+<section class="panel">
+  <div><h2>Battery, and the cold buzzer</h2><p class="why">Coded PHY buys range and pays in airtime. And at −5 °C a coin cell's internal resistance turns a 32 mA buzzer pulse into a brown-out unless the capacitor is large enough.</p>
+    <div class="ctl">
+      <div class="seg" role="group" aria-label="PHY"><button data-phy="table" aria-pressed="false">1M PHY</button><button data-phy="coded" aria-pressed="true">Coded PHY</button></div>
+      <div class="seg" role="group" aria-label="Temperature"><button data-cold="0" aria-pressed="true">25 °C</button><button data-cold="1" aria-pressed="false">−5 °C</button></div>
+      <label><span>Hours a day on the trek <output id="pHoursO"></output></span><input type="range" id="pHours" min="4" max="24" step="1" value="14"></label>
+      <label><span>Hold-up capacitor <output id="pCapO"></output></span><input type="range" id="pCap" min="0" max="3000" step="10" value="100"></label>
+      <label><span>Buzzer and LED pulse <output id="pMaO"></output></span><input type="range" id="pMa" min="5" max="40" step="1" value="32"></label>
+    </div></div>
+  <div class="out"><div class="pair"><div><div class="big" id="pLife"></div><p id="pUa"></p></div><div><div class="big" id="pV"></div><p>lowest supply in a 100 ms pulse at −5 °C <span class="state" id="pState"></span></p></div></div>
+    <p class="note">Currents are the white paper's design values for a 620 mAh CR2450. The chip resets below 1.70 V.</p></div>
+</section>
+
+<section class="panel">
+  <div><h2>Range under the roof</h2><p class="why">The paper's path-loss model: 40.2 dB at one metre, exponent 2.15, 4.2 dB of shadowing. The bar is the distance at which 98% of frames still clear the receiver's sensitivity.</p>
+    <div class="ctl">
+      <div class="seg" role="group" aria-label="PHY for range"><button data-sens="-96" aria-pressed="false">1M PHY</button><button data-sens="-103" aria-pressed="true">Coded PHY</button></div>
+      <div class="seg" role="group" aria-label="Pole mounting"><button data-roof="0" aria-pressed="true">Pole under the roof</button><button data-roof="24.1" aria-pressed="false">Pole above the roof</button></div>
+      <label><span>Transmit power <output id="lTxO"></output></span><input type="range" id="lTx" min="-4" max="8" step="1" value="8"></label>
+      <label><span>Body loss in the crowd <output id="lBodyO"></output></span><input type="range" id="lBody" min="0" max="24" step="1" value="14"></label>
+    </div></div>
+  <div class="out"><div class="big" id="lRange"></div>
+    <div class="rangebar"><i id="lBar"></i><em style="left:36%" title="pole spacing"></em></div>
+    <div class="axis"><span>0</span><span>108 m: pole spacing on the tracks</span><span>300 m</span></div>
+    <p class="note" id="lNote"></p></div>
+</section>
+</main>
+<footer><div class="wrap"><p><strong style="color:var(--ink)">Rakshasutra Explorer</strong> · built from <code>demo/template.html</code> and <code>demo/kernel.js</code> by <code>demo/build_web.py</code> · a design study, not a safety system.</p></div></footer>
+<script>
+/* Rakshasutra browser kernel: the same formulas as the Python reference, in plain JavaScript.
+ * tests/test_demo_parity.py runs this file under Node and compares it with Python. */
+(function (root) {
+  "use strict";
+  const SBOX = (function () {                      // AES S-box, generated rather than typed
+    const s = new Uint8Array(256); let p = 1, q = 1;
+    do {
+      p = p ^ ((p << 1) & 0xff) ^ (p & 0x80 ? 0x1b : 0);
+      q ^= q << 1; q ^= q << 2; q ^= q << 4; q &= 0xff; if (q & 0x80) q ^= 0x09;
+      const x = q ^ ((q << 1) | (q >> 7)) ^ ((q << 2) | (q >> 6)) ^ ((q << 3) | (q >> 5)) ^ ((q << 4) | (q >> 4));
+      s[p] = (x ^ 0x63) & 0xff;
+    } while (p !== 1);
+    s[0] = 0x63; return s;
+  })();
+  const RCON = [1, 2, 4, 8, 16, 32, 64, 128, 0x1b, 0x36];
+  const xt = (a) => ((a << 1) ^ (a & 0x80 ? 0x1b : 0)) & 0xff;
+
+  function aesEncrypt(key, block) {
+    const rk = new Uint8Array(176); rk.set(key);
+    for (let i = 16; i < 176; i += 4) {
+      let w = [rk[i - 4], rk[i - 3], rk[i - 2], rk[i - 1]];
+      if (i % 16 === 0) w = [SBOX[w[1]] ^ RCON[i / 16 - 1], SBOX[w[2]], SBOX[w[3]], SBOX[w[0]]];
+      for (let c = 0; c < 4; c++) rk[i + c] = rk[i - 16 + c] ^ w[c];
+    }
+    let s = Uint8Array.from(block, (b, i) => b ^ rk[i]);
+    for (let r = 1; r <= 10; r++) {
+      const t = new Uint8Array(16);
+      for (let c = 0; c < 4; c++) for (let i = 0; i < 4; i++) t[4 * c + i] = SBOX[s[(4 * (c + i) + i) % 16]];
+      if (r !== 10) {
+        for (let c = 0; c < 4; c++) {
+          const [a0, a1, a2, a3] = [t[4 * c], t[4 * c + 1], t[4 * c + 2], t[4 * c + 3]];
+          s[4 * c] = xt(a0) ^ xt(a1) ^ a1 ^ a2 ^ a3; s[4 * c + 1] = a0 ^ xt(a1) ^ xt(a2) ^ a2 ^ a3;
+          s[4 * c + 2] = a0 ^ a1 ^ xt(a2) ^ xt(a3) ^ a3; s[4 * c + 3] = xt(a0) ^ a0 ^ a1 ^ a2 ^ xt(a3);
+        }
+      } else s = t;
+      for (let i = 0; i < 16; i++) s[i] ^= rk[16 * r + i];
+    }
+    return s;
+  }
+  function dbl(b) {
+    const o = new Uint8Array(16);
+    for (let i = 0; i < 16; i++) o[i] = ((b[i] << 1) | (i < 15 ? b[i + 1] >> 7 : 0)) & 0xff;
+    if (b[0] & 0x80) o[15] ^= 0x87;
+    return o;
+  }
+  function aesCmac(key, msg) {
+    const k1 = dbl(aesEncrypt(key, new Uint8Array(16))), k2 = dbl(k1);
+    const n = Math.max(1, Math.ceil(msg.length / 16)), complete = msg.length > 0 && msg.length % 16 === 0;
+    const last = new Uint8Array(16), rem = msg.length - (n - 1) * 16;
+    last.set(msg.slice((n - 1) * 16));
+    if (!complete) last[rem] = 0x80;
+    let x = new Uint8Array(16);
+    for (let i = 0; i < n - 1; i++) x = aesEncrypt(key, x.map((b, j) => b ^ msg[16 * i + j]));
+    return aesEncrypt(key, x.map((b, j) => b ^ last[j] ^ (complete ? k1[j] : k2[j])));
+  }
+  const hex = (b) => Array.from(b, (x) => x.toString(16).padStart(2, "0")).join("");
+  const unhex = (s) => Uint8Array.from((s.match(/../g) || []).map((x) => parseInt(x, 16)));
+
+  function rollingId(key, c) { return aesCmac(key, [1, c & 0xff, (c >> 8) & 0xff]).slice(0, 4); }
+  function macAddress(key, c) { const m = aesCmac(key, [2, c & 0xff, (c >> 8) & 0xff]).slice(0, 6); m[0] |= 0xc0; return m; }
+  function buildFrame(key, c, flags, batteryCode, role) {
+    const f = new Uint8Array(15);
+    f[0] = 0x5a; f[1] = 0xff; f[2] = 4 | ((role & 1) << 4); f[3] = c & 0xff; f[4] = (c >> 8) & 0xff;
+    f.set(rollingId(key, c), 5); f[9] = flags & 0xff; f[10] = batteryCode & 0xff;
+    f.set(aesCmac(key, f.slice(2, 11)).slice(0, 4), 11);
+    return f;
+  }
+
+  function timeOnAir(appBytes, sf) {                // seconds; SF7..SF10, 125 kHz, coding rate 4/5
+    sf = sf || 7;
+    const n = Math.max(Math.ceil((8 * (appBytes + 13) - 4 * sf + 44) / (4 * sf)) * 5, 0);
+    return (Math.pow(2, sf) / 125000) * (8 + 4.25 + 8 + n);
+  }
+  function poisson(mean) {
+    const pmf = []; let p = Math.exp(-mean), total = 0, k = 0;
+    while (total < 1 - 1e-12 || k <= mean) {
+      pmf.push(p); total += p; k += 1; p *= mean / k;
+      if (k > mean + 60 * Math.sqrt(mean + 1) + 60) break;
+    }
+    return pmf;
+  }
+  function split(count, per, unit) {
+    const out = []; for (let i = 0; i < Math.floor(count / per); i++) out.push(per * unit);
+    if (count % per) out.push((count % per) * unit); return out;
+  }
+  function periodic(name, poles, period, mean, sizes) {
+    let frames = 0, air = 0;
+    poisson(mean).forEach((p, k) => sizes(k).forEach((b) => { frames += p; air += p * timeOnAir(b); }));
+    return { name, frames: (poles / period) * frames, air: (poles / period) * air };
+  }
+  /* Load and loss of one gateway cell; mirrors rakshasutra.capacity.cell_load. */
+  function cellLoad(arch, tags, poles, departures, passS, channels) {
+    poles = poles || 60; passS = passS || 55; channels = channels || 8;
+    const present = tags / poles, arrivals = (tags * 15) / (passS * poles), streams = [];
+    const rawBeat = () => periodic("heartbeat", poles, 60, present, (k) => split(k, 55, 4));
+    if (arch === "raw") streams.push({ name: "arrivals", frames: tags / 2, air: (tags / 2) * timeOnAir(7) });
+    else if (arch === "single") {
+      streams.push({ name: "arrivals", frames: tags / passS, air: (tags / passS) * timeOnAir(8) }); streams.push(rawBeat());
+    } else if (arch === "batch") {
+      streams.push(periodic("arrivals", poles, 15, arrivals, (k) => split(k, 27, 8))); streams.push(rawBeat());
+    } else {
+      streams.push(periodic("arrivals", poles, 15, arrivals, (k) => split(k, 25, 8)));
+      if (departures !== false) streams.push(periodic("departures", poles, 15, arrivals, (k) => split(k, 50, 4)));
+      const rate = (poles * (1 - Math.exp(-present))) / 60;
+      streams.push({ name: "heartbeat", frames: rate, air: rate * timeOnAir(64) });
+    }
+    const load = streams.reduce((a, s) => a + s.air, 0) / channels;
+    return { load, loss: 1 - Math.exp(-2 * load), streams };
+  }
+  function bloomFpr(tags) { return Math.pow(1 - Math.exp((-3 * tags) / 512), 3); }
+
+  function advEventMs(phy) {
+    if (phy === "1m") return (3 * (1 + 4 + 2 + 6 + 17 + 3) * 8) / 1000;
+    const pkt = (n) => (376 + (n * 8 + 27) * 8) / 1000;
+    return 3 * pkt(9) + pkt(29);
+  }
+  function batteryMonths(phy, cold, activeHours, advIntervalS) {
+    activeHours = activeHours === undefined ? 14 : activeHours; advIntervalS = advIntervalS || 0.8;
+    const tx = phy === "table" ? 1.25 : advEventMs(phy);
+    const ua = 1.8 + (14.2 * 1000 * tx) / (advIntervalS * 1000) + (4.6 * 1000 * 5) / 4000 + (3.8 * 1000 * 0.45) / 900000;
+    const daily = activeHours * ua + (24 - activeHours) * 0.6;
+    return { ua, months: ((620 * (cold ? 0.7 : 1) * 1000) / daily) / (365.25 / 12) };
+  }
+  function invNorm98() { return 2.0537489106318225; }
+  function bleRange(sensDbm, txDbm, roofDb, bodyDb) {
+    const budget = txDbm - 40.2 - bodyDb - roofDb - sensDbm - invNorm98() * 4.2;
+    return Math.pow(10, budget / 21.5);
+  }
+  function pulseVmin(capUf, pulseMa, onMs, offMs) {
+    const r = 42, v0 = 2.95, full = (pulseMa / 1000) * r, c = capUf * 1e-6;
+    if (c <= 0) return v0 - full;
+    const a = Math.exp(-(onMs / 1000) / (r * c)), b = Math.exp(-(offMs / 1000) / (r * c));
+    return v0 - (full * (1 - a)) / (1 - a * b);
+  }
+  const api = { aesCmac, buildFrame, rollingId, macAddress, timeOnAir, cellLoad, bloomFpr, advEventMs, batteryMonths,
+    bleRange, pulseVmin, hex, unhex };
+  if (typeof module !== "undefined" && module.exports) module.exports = api; else root.RS = api;
+})(typeof window !== "undefined" ? window : globalThis);
+
+(function(){
+  var $=function(id){return document.getElementById(id)},pct=function(x,n){return (100*x).toFixed(n===undefined?1:n)+'%'};
+  function seg(sel,fn){var bs=document.querySelectorAll(sel);bs.forEach(function(b){b.addEventListener('click',function(){bs.forEach(function(o){o.setAttribute('aria-pressed',o===b)});fn(b)})})}
+  // ---- frame
+  var sos=false;
+  function frame(){var hexs=$('fKey').value.replace(/[^0-9a-fA-F]/g,'');if(hexs.length!==32){$('fBytes').innerHTML='';$('fId').textContent='the key must be 32 hex digits';$('fMac').textContent=$('fMic').textContent=$('fAge').textContent='';return}
+    var key=RS.unhex(hexs),c=+$('fSlot').value,f=RS.buildFrame(key,c,sos?1:0,150,0);$('fSlotO').textContent=c;
+    $('fBytes').innerHTML=Array.from(f,function(b,i){var k=i>=5&&i<=8?'id':i>=11?'mic':(i===9&&sos?'sos':'');return '<b class="'+k+'">'+b.toString(16).padStart(2,'0')+'</b>'}).join('');
+    $('fId').textContent=RS.hex(f.slice(5,9));$('fMic').textContent=RS.hex(f.slice(11));
+    $('fMac').textContent=Array.from(RS.macAddress(key,c),function(x){return x.toString(16).padStart(2,'0')}).join(':');
+    $('fAge').textContent=(c*15>=60?Math.floor(c/4)+' h ':'')+(c*15%60)+' min'}
+  $('fKey').addEventListener('input',frame);$('fSlot').addEventListener('input',frame);
+  $('fSosOn').addEventListener('click',function(){sos=true;$('fSosOn').setAttribute('aria-pressed',true);$('fSosOff').setAttribute('aria-pressed',false);frame()});
+  $('fSosOff').addEventListener('click',function(){sos=false;$('fSosOff').setAttribute('aria-pressed',true);$('fSosOn').setAttribute('aria-pressed',false);frame()});
+  // ---- capacity
+  var DES=[['single','Single-event arrivals','#B8860B',true],['batch','15 s batching','#2F4B9A',true],['rakshasutra','Rakshasutra, as specified','#C0271D',true],['rakshasutra','Rakshasutra, no departure lists','#0E8F84',false]];
+  function cap(){var n=+$('cTags').value,k=+$('cPoles').value;$('cTagsO').textContent=n.toLocaleString();$('cPolesO').textContent=k;
+    var rows=DES.map(function(d){return RS.cellLoad(d[0],n,k,d[3])});
+    $('cBars').innerHTML=DES.map(function(d,i){var l=rows[i].loss;return '<div class="bar"><span>'+d[1]+'</span><span class="t"><i style="width:'+Math.min(100,100*l)+'%;background:'+d[2]+'"></i></span><span class="n">'+pct(l)+'</span></div>'}).join('');
+    var raw=RS.cellLoad('raw',n,k);
+    $('cNote').textContent='Frames lost to collisions (pure ALOHA, no capture). Channel load: '+rows.map(function(r){return pct(r.load)}).join(' · ')+'. Forwarding every ping raw would load the channels to '+pct(raw.load,0)+' and lose '+pct(raw.loss,0)+'.'}
+  $('cTags').addEventListener('input',cap);$('cPoles').addEventListener('input',cap);
+  // ---- bloom (a fixed pseudo-random stream of identifiers, so the picture is stable)
+  var grid=$('bGrid');for(var i=0;i<512;i++)grid.appendChild(document.createElement('i'));
+  function crc16(b){var c=0xffff;b.forEach(function(x){c^=x<<8;for(var j=0;j<8;j++)c=c&0x8000?((c<<1)^0x1021)&0xffff:(c<<1)&0xffff});return c}
+  function fnv(b){var h=0x811c9dc5;b.forEach(function(x){h=Math.imul(h^x,0x01000193)>>>0});return h}
+  function bloom(){var n=+$('bTags').value,bits=new Uint8Array(512),s=12345;$('bTagsO').textContent=n;
+    for(var t=0;t<n;t++){var id=[];for(var j=0;j<4;j++){s=(Math.imul(s,1103515245)+12345)>>>0;id.push((s>>>16)&255)}
+      var h1=crc16(id),h2=fnv(id);for(var p=0;p<3;p++)bits[(h1+p*h2)%512]=1}
+    var set=bits.reduce(function(a,b){return a+b},0);grid.childNodes.forEach(function(c,i){c.className=bits[i]?'on':''});
+    var f=RS.bloomFpr(n);$('bFpr').innerHTML=(100*f).toFixed(f<0.1?1:0)+'<small>%</small>';$('bFill').innerHTML=Math.round(100*set/512)+'<small>%</small>'}
+  $('bTags').addEventListener('input',bloom);
+  // ---- power
+  var phy='coded',cold=false;
+  function power(){var h=+$('pHours').value,c=+$('pCap').value,ma=+$('pMa').value,r=RS.batteryMonths(phy,cold,h);
+    $('pHoursO').textContent=h+' h';$('pCapO').textContent=c+' µF';$('pMaO').textContent=ma+' mA';
+    $('pLife').innerHTML=r.months.toFixed(1)+'<small>months</small>';$('pUa').textContent='on one cell, at '+r.ua.toFixed(1)+' µA while on the trek';
+    var v=RS.pulseVmin(c,ma,100,400);$('pV').innerHTML=v.toFixed(2)+'<small>V</small>';
+    var s=$('pState');s.textContent=v<1.7?'brown-out':'holds';s.className='state '+(v<1.7?'bad':'ok')}
+  seg('[data-phy]',function(b){phy=b.dataset.phy;power()});seg('[data-cold]',function(b){cold=b.dataset.cold==='1';power()});
+  ['pHours','pCap','pMa'].forEach(function(id){$(id).addEventListener('input',power)});
+  // ---- link
+  var sens=-103,roof=0;
+  function link(){var tx=+$('lTx').value,body=+$('lBody').value,d=RS.bleRange(sens,tx,roof,body);
+    $('lTxO').textContent=(tx>0?'+':'')+tx+' dBm';$('lBodyO').textContent=body+' dB';
+    $('lRange').innerHTML=(d<10?d.toFixed(1):Math.round(d))+'<small>m</small>';$('lBar').style.width=Math.min(100,d/3)+'%';
+    $('lNote').textContent=d>=108?'Covers poles 108 m apart.':d>=25?'Covers the 25 m spacing of the hubs, not the 108 m of the tracks.':'Too short even for the hubs.'}
+  seg('[data-sens]',function(b){sens=+b.dataset.sens;link()});seg('[data-roof]',function(b){roof=+b.dataset.roof;link()});
+  $('lTx').addEventListener('input',link);$('lBody').addEventListener('input',link);
+  frame();cap();bloom();power();link();
+})();
+</script>
+</body>
+</html>

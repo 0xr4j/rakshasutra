@@ -1,0 +1,28 @@
+name: Offer a measurement or field access
+description: Share radio measurements, or offer a shelter, a lab or a site where the design could be tested.
+title: "[Data] "
+labels: ["data"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What are you offering?
+      options:
+        - Radio measurements (BLE or LoRa, under a steel roof or in a crowd)
+        - Hardware measurements (currents, coin cells in the cold)
+        - Access to a shelter, lab or site
+        - Experience to share (dense BLE scanning, LoRaWAN, crowd safety)
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: What was or could be measured, with which equipment, and where. Do not include personal data about any pilgrim or visitor.
+    validations:
+      required: true
+  - type: input
+    id: contact
+    attributes:
+      label: How should we reach you?
+      description: Optional. Leave blank to continue in this issue. Issues are public, so share only contact details you are happy for anyone to see.

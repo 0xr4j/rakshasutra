@@ -1,0 +1,422 @@
+[
+ {
+  "id": "A01",
+  "section": "V-A",
+  "claim": "Time on air, SOS frame (15 B, SF7)",
+  "paper": 66.82,
+  "model": 66.82,
+  "unit": "ms",
+  "verdict": "reproduced",
+  "note": ""
+ },
+ {
+  "id": "A02",
+  "section": "V-A",
+  "claim": "Time on air, Bloom heartbeat (64 B, SF7)",
+  "paper": 138.5,
+  "model": 138.5,
+  "unit": "ms",
+  "verdict": "reproduced",
+  "note": ""
+ },
+ {
+  "id": "A03",
+  "section": "V-A",
+  "claim": "Time on air, 25-tag chunk (200 B, SF7)",
+  "paper": 338.18,
+  "model": 338.18,
+  "unit": "ms",
+  "verdict": "reproduced",
+  "note": ""
+ },
+ {
+  "id": "A04",
+  "section": "V-B",
+  "claim": "Pseudonyms that fit one raw 222-byte list",
+  "paper": 55,
+  "model": 55,
+  "unit": "IDs",
+  "verdict": "reproduced",
+  "note": ""
+ },
+ {
+  "id": "A05",
+  "section": "III-B",
+  "claim": "Maximum allowable LoRa path loss, whip above the roof",
+  "paper": 145.4,
+  "model": 145.4,
+  "unit": "dB",
+  "verdict": "reproduced",
+  "note": ""
+ },
+ {
+  "id": "A06",
+  "section": "III-B",
+  "claim": "BLE Coded PHY margin at 50 m, heavy crowd",
+  "paper": 28.6,
+  "model": 20.3,
+  "unit": "dB",
+  "verdict": "differs",
+  "note": "Eq. 2 with the stated parameters gives 20.3 dB. The first draft's figure needs 8.3 dB of antenna gain that the paper does not specify."
+ },
+ {
+  "id": "A07",
+  "section": "VI-A",
+  "claim": "BLE range at 98% delivery, pole above the roof, 1M PHY, +4 dBm",
+  "paper": 4.2,
+  "model": 4.1,
+  "unit": "m",
+  "verdict": "reproduced",
+  "note": ""
+ },
+ {
+  "id": "A08",
+  "section": "VI-A",
+  "claim": "BLE range at 98% delivery, pole under the roof, 1M PHY",
+  "paper": 28.5,
+  "model": 82.2,
+  "unit": "m",
+  "verdict": "differs",
+  "note": "Eq. 2 gives a longer range than the first draft's table. Either way it covers the pole spacing."
+ },
+ {
+  "id": "A09",
+  "section": "VI-A",
+  "claim": "BLE range at 98% delivery, pole under the roof, Coded PHY",
+  "paper": 92.0,
+  "model": 174.0,
+  "unit": "m",
+  "verdict": "differs",
+  "note": "Eq. 2 gives a longer range than the first draft's table. Either way it covers the pole spacing."
+ },
+ {
+  "id": "A10",
+  "section": "VI-A",
+  "claim": "LoRa range, whip above the roof",
+  "paper": "5.4-8.8 km",
+  "model": "16.1 dB margin at 8 km",
+  "unit": "",
+  "verdict": "open",
+  "note": "The paper states no pole-to-gateway path-loss model, so a range cannot be recomputed. With free-space loss and one assumed 20 dB ridge the split antenna keeps a positive margin at 8 km."
+ },
+ {
+  "id": "A11",
+  "section": "VI-A",
+  "claim": "LoRa range, antenna under the roof",
+  "paper": "0.85 km",
+  "model": "-4.4 dB margin at 8 km",
+  "unit": "",
+  "verdict": "open",
+  "note": "Same model: the 18.4 dB roof loss and 3 dB body loss leave a negative margin at 8 km."
+ },
+ {
+  "id": "A12",
+  "section": "VI-B",
+  "claim": "Uplink loss, raw forwarding, 500 tags in the cell",
+  "paper": 97.7,
+  "model": 97.1,
+  "unit": "%",
+  "verdict": "reproduced",
+  "note": "Same order of magnitude; the paper does not give the size of a forwarded ping (7 B assumed here)."
+ },
+ {
+  "id": "A13",
+  "section": "VI-B",
+  "claim": "Uplink loss, raw forwarding, 3,000 tags in the cell",
+  "paper": 100.0,
+  "model": 100.0,
+  "unit": "%",
+  "verdict": "reproduced",
+  "note": "Same order of magnitude; the paper does not give the size of a forwarded ping (7 B assumed here)."
+ },
+ {
+  "id": "A14",
+  "section": "VI-B",
+  "claim": "Uplink loss, single-event arrivals, 500 tags in the cell",
+  "paper": 12.2,
+  "model": 14.1,
+  "unit": "%",
+  "verdict": "differs",
+  "note": "The first draft counted arrivals only; the model also counts the 60 s raw heartbeat."
+ },
+ {
+  "id": "A15",
+  "section": "VI-B",
+  "claim": "Uplink loss, single-event arrivals, 3,000 tags in the cell",
+  "paper": 54.2,
+  "model": 57.6,
+  "unit": "%",
+  "verdict": "differs",
+  "note": "The first draft counted arrivals only; the model also counts the 60 s raw heartbeat."
+ },
+ {
+  "id": "A16",
+  "section": "VI-B",
+  "claim": "Uplink loss, 15 s batching, 500 tags in the cell",
+  "paper": 5.8,
+  "model": 8.6,
+  "unit": "%",
+  "verdict": "differs",
+  "note": "The first draft counted arrivals only; the model also counts the 60 s raw heartbeat."
+ },
+ {
+  "id": "A17",
+  "section": "VI-B",
+  "claim": "Uplink loss, 15 s batching, 3,000 tags in the cell",
+  "paper": 22.1,
+  "model": 25.3,
+  "unit": "%",
+  "verdict": "differs",
+  "note": "The first draft counted arrivals only; the model also counts the 60 s raw heartbeat."
+ },
+ {
+  "id": "A18",
+  "section": "VI-B",
+  "claim": "Uplink loss, Rakshasutra, 500 tags in the cell",
+  "paper": 4.1,
+  "model": 14.3,
+  "unit": "%",
+  "verdict": "differs",
+  "note": "The model counts all three streams of Algorithm 2: arrival chunks, departure lists and the Bloom heartbeat. The first draft's figures are not reached by any of them."
+ },
+ {
+  "id": "A19",
+  "section": "VI-B",
+  "claim": "Uplink loss, Rakshasutra, 3,000 tags in the cell",
+  "paper": 15.8,
+  "model": 30.5,
+  "unit": "%",
+  "verdict": "differs",
+  "note": "The model counts all three streams of Algorithm 2: arrival chunks, departure lists and the Bloom heartbeat. The first draft's figures are not reached by any of them."
+ },
+ {
+  "id": "A20",
+  "section": "VI-B",
+  "claim": "Uplink loss, Rakshasutra without departure lists, 3,000 tags",
+  "paper": 15.8,
+  "model": 21.3,
+  "unit": "%",
+  "verdict": "design fix",
+  "note": "Departure lists (FPort 2) cost more airtime than the Bloom heartbeat saves. Dropping them, and inferring departure from the next arrival and the heartbeat, cuts the load by a third."
+ },
+ {
+  "id": "A21",
+  "section": "Abstract",
+  "claim": "Reduction in LoRa airtime, 3,000 tags",
+  "paper": 82.4,
+  "model": 57.6,
+  "unit": "%",
+  "verdict": "differs",
+  "note": "Against single-event forwarding. Without departure lists the reduction is 72.1%."
+ },
+ {
+  "id": "A22",
+  "section": "VI-B",
+  "claim": "Uplink loss in the deployed layout, 5,000 tags on the trek",
+  "paper": "< 6",
+  "model": 11.0,
+  "unit": "%",
+  "verdict": "differs",
+  "note": "637 tags and 32 poles per gateway cell."
+ },
+ {
+  "id": "A23",
+  "section": "V-C",
+  "claim": "Class A worst-case alert delay",
+  "paper": 173,
+  "model": 173.0,
+  "unit": "s",
+  "verdict": "reproduced",
+  "note": ""
+ },
+ {
+  "id": "A24",
+  "section": "V-C",
+  "claim": "Distance walked during that delay",
+  "paper": 215,
+  "model": 216,
+  "unit": "m",
+  "verdict": "reproduced",
+  "note": ""
+ },
+ {
+  "id": "A25",
+  "section": "V-C",
+  "claim": "Time an EV passenger spends in a 25 m core zone",
+  "paper": 4.5,
+  "model": 4.5,
+  "unit": "s",
+  "verdict": "reproduced",
+  "note": ""
+ },
+ {
+  "id": "A26",
+  "section": "V-C",
+  "claim": "EV capture with one decoded frame required",
+  "paper": 99.4,
+  "model": 99.7,
+  "unit": "%",
+  "verdict": "reproduced",
+  "note": "The paper gives no per-frame success rate. With 150 other wearables in range of the pole the model gives this figure; with 300 it falls to 95.0%."
+ },
+ {
+  "id": "A27",
+  "section": "V-C",
+  "claim": "Tether: chance one 5 ms scan hears the child's band",
+  "paper": "assumed 1",
+  "model": 0.48,
+  "unit": "%",
+  "verdict": "design fix",
+  "note": "A 5 ms window every 5 s almost never coincides with an advertisement sent every 800 ms: four scans in a row all miss 98% of the time with the child beside the parent. A window of 811 ms cannot miss; it costs 746 uA."
+ },
+ {
+  "id": "A28",
+  "section": "V-C",
+  "claim": "Tether: separation at which the alert sounds",
+  "paper": "25-30 m",
+  "model": "174 m",
+  "unit": "",
+  "verdict": "design fix",
+  "note": "Losing the signal happens at the edge of radio range, not at 25-30 m. To alert at 30 m the parent tag must treat an RSSI below about -78 dBm as a miss."
+ },
+ {
+  "id": "A29",
+  "section": "VI-C",
+  "claim": "Mean current on the trek (Table V)",
+  "paper": 29.74,
+  "model": 29.74,
+  "unit": "uA",
+  "verdict": "reproduced",
+  "note": ""
+ },
+ {
+  "id": "A30",
+  "section": "VI-C",
+  "claim": "Battery life at 25 C, from Table V",
+  "paper": 14.2,
+  "model": 48.2,
+  "unit": "months",
+  "verdict": "differs",
+  "note": "Table V as printed gives a much longer life than the first draft stated."
+ },
+ {
+  "id": "A31",
+  "section": "VI-C",
+  "claim": "Battery life at -5 C, from Table V",
+  "paper": 11.1,
+  "model": 33.8,
+  "unit": "months",
+  "verdict": "differs",
+  "note": "As above."
+ },
+ {
+  "id": "A32",
+  "section": "VI-C",
+  "claim": "Transmit time per advertisement on Coded PHY",
+  "paper": 1.25,
+  "model": 5.95,
+  "unit": "ms",
+  "verdict": "differs",
+  "note": "1.25 ms fits a 1M PHY event. On Coded PHY S=8 the same 15 bytes take 5.95 ms, which gives 12.8 months at 25 C and 9.0 months at -5 C."
+ },
+ {
+  "id": "A33",
+  "section": "VI-C",
+  "claim": "Supply during an unbuffered buzzer pulse at -5 C",
+  "paper": 1.61,
+  "model": 1.61,
+  "unit": "V",
+  "verdict": "reproduced",
+  "note": ""
+ },
+ {
+  "id": "A34",
+  "section": "VI-C",
+  "claim": "Supply during the pulse with the 100 uF capacitor",
+  "paper": 2.68,
+  "model": 1.61,
+  "unit": "V",
+  "verdict": "design fix",
+  "note": "100 uF behind 42 ohm has a time constant of 4.2 ms, far shorter than the 100 ms pulse, so it does not hold the supply up. Either the capacitor must be at least 895 uF or the pulse current at most 29.8 mA."
+ },
+ {
+  "id": "A35",
+  "section": "IV-E",
+  "claim": "Chance of forging an SOS in one try",
+  "paper": "2.33e-10",
+  "model": "2.33e-10",
+  "unit": "",
+  "verdict": "reproduced",
+  "note": ""
+ },
+ {
+  "id": "A36",
+  "section": "IV-E",
+  "claim": "Chance of forging a wake token in one try",
+  "paper": "5.96e-08",
+  "model": "5.96e-08",
+  "unit": "",
+  "verdict": "reproduced",
+  "note": ""
+ },
+ {
+  "id": "A37",
+  "section": "IV-D",
+  "claim": "Pseudonyms are unique in the lookup table",
+  "paper": "assumed",
+  "model": "10% chance of a clash",
+  "unit": "",
+  "verdict": "design fix",
+  "note": "With 10,000 tags and a three-slot window, two entries share a 32-bit pseudonym about one time in ten. The table therefore maps a pseudonym to a list and separates clashes by the slot counter."
+ },
+ {
+  "id": "A38",
+  "section": "IV-A",
+  "claim": "Replayed frames are rejected",
+  "paper": "all",
+  "model": "outside the 3-slot window",
+  "unit": "",
+  "verdict": "design fix",
+  "note": "Arrival tuples carry no MIC and poles hold no keys, so a frame replayed at another pole within its own slot window (up to 45 minutes) is accepted as a sighting. Only SOS frames are fully verified."
+ },
+ {
+  "id": "A39",
+  "section": "V-B",
+  "claim": "Bloom heartbeat false-positive rate",
+  "paper": "not stated",
+  "model": "1.6% at 50 tags, 57% at 300",
+  "unit": "",
+  "verdict": "open",
+  "note": "64 bytes hold about 78 wearables at a 5% error rate. Dense hub poles are on fibre and can send a larger filter."
+ },
+ {
+  "id": "A40",
+  "section": "III-A",
+  "claim": "Pole spacing on the LoRa tracks",
+  "paper": "25-100 m",
+  "model": "108 m",
+  "unit": "",
+  "verdict": "differs",
+  "note": "195 poles over 21.0 km of track is one pole per 108 m. Still inside the Coded PHY range of Eq. 2."
+ },
+ {
+  "id": "A41",
+  "section": "III-B",
+  "claim": "Wearable transmit power on the nRF52811",
+  "paper": "+8 dBm",
+  "model": "+4 dBm",
+  "unit": "",
+  "verdict": "open",
+  "note": "The nRF52811 is specified up to +4 dBm. +8 dBm needs a part such as the nRF52820 or nRF52833. To be confirmed against the datasheet before the bill of materials is fixed."
+ },
+ {
+  "id": "A42",
+  "section": "Abstract",
+  "claim": "SOS reaches the control room within 4 s (3,000-tag surge)",
+  "paper": "all",
+  "model": "92% (median 0.5 s)",
+  "unit": "",
+  "verdict": "differs",
+  "note": "Simulation. The first LoRa attempt is lost 23% of the time under the surge, and a repeat waits an assumed 3 s. On fibre poles every SOS arrives in under a second."
+ }
+]

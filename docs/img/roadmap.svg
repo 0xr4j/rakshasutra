@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 190" role="img" aria-label="Roadmap: reference model done in November 2026; protocol revision next; then bench radio, a prototype, a pilot and peer review.">
+<rect width="1200" height="190" fill="#F6F1E7"/>
+<path d="M60 70 H1140" stroke="#C0271D" stroke-width="2.5"/>
+<circle cx="60" cy="70" r="9" fill="#C0271D" stroke="#C0271D" stroke-width="3"/>
+<text x="60" y="42" text-anchor="start" font-family="'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace" font-size="13" fill="#6A6F85">NOV 2026  ·  DONE</text>
+<text x="60" y="108" text-anchor="start" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="17" font-weight="600" fill="#171A2B">Reference model</text>
+<text x="60" y="132" text-anchor="start" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#6A6F85">package, book, audit</text>
+<circle cx="330" cy="70" r="9" fill="#F6F1E7" stroke="#C0271D" stroke-width="3"/>
+<text x="330" y="42" text-anchor="middle" font-family="'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace" font-size="13" fill="#6A6F85">NEXT</text>
+<text x="330" y="108" text-anchor="middle" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="17" font-weight="600" fill="#171A2B">Protocol revision</text>
+<text x="330" y="132" text-anchor="middle" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#6A6F85">tether, signed sightings</text>
+<circle cx="600" cy="70" r="9" fill="#F6F1E7" stroke="#C0271D" stroke-width="3"/>
+<text x="600" y="42" text-anchor="middle" font-family="'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace" font-size="13" fill="#6A6F85">PLANNED</text>
+<text x="600" y="108" text-anchor="middle" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="17" font-weight="600" fill="#171A2B">Bench radio</text>
+<text x="600" y="132" text-anchor="middle" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#6A6F85">roof loss and range, measured</text>
+<circle cx="870" cy="70" r="9" fill="#F6F1E7" stroke="#C0271D" stroke-width="3"/>
+<text x="870" y="42" text-anchor="middle" font-family="'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace" font-size="13" fill="#6A6F85">PLANNED</text>
+<text x="870" y="108" text-anchor="middle" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="17" font-weight="600" fill="#171A2B">Prototype</text>
+<text x="870" y="132" text-anchor="middle" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#6A6F85">10 bands, 3 poles</text>
+<circle cx="1140" cy="70" r="9" fill="#F6F1E7" stroke="#C0271D" stroke-width="3"/>
+<text x="1140" y="42" text-anchor="end" font-family="'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace" font-size="13" fill="#6A6F85">AFTER THAT</text>
+<text x="1140" y="108" text-anchor="end" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="17" font-weight="600" fill="#171A2B">Pilot and peer review</text>
+<text x="1140" y="132" text-anchor="end" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="13.5" fill="#6A6F85">one zone, with permission</text>
+</svg>
