@@ -1,0 +1,187 @@
+% Written by generated/make_numbers.py. Do not edit.
+\newcommand{\TableCapacity}{\begin{tabular}{@{}p{0.25\linewidth}rrrrl@{}}\toprule
+Forwarding design & 500 & 1,000 & 2,000 & 3,000 & Largest frame\\\midrule
+Raw forwarding (2 s pings) & 176.8 / 97.1 & 353.6 / 99.9 & 707.2 / 100.0 & 1060.8 / 100.0 & 7 B \\
+Single-event arrivals + raw ID heartbeat & 7.6 / 14.1 & 14.6 / 25.4 & 28.7 / 43.7 & 42.9 / 57.6 & over 222 B \\
+15 s batching + raw ID heartbeat & 4.5 / 8.6 & 6.7 / 12.5 & 10.6 / 19.0 & 14.6 / 25.3 & over 222 B \\
+Rakshasutra as specified & 7.7 / 14.3 & 10.2 / 18.4 & 14.2 / 24.7 & 18.2 / 30.5 & $\leq$ 200 B \\
+Rakshasutra without departure lists & 5.1 / 9.7 & 6.6 / 12.4 & 9.3 / 17.0 & 12.0 / 21.3 & $\leq$ 200 B \\
+\bottomrule\end{tabular}}
+\newcommand{\TableCapacityCompare}{\begin{tabular}{@{}p{0.36\linewidth}ll@{}}\toprule
+Forwarding design & First draft, loss (\%) & This model, loss (\%)\\\midrule
+Raw forwarding (2 s pings) & 97.7 / 99.9 / 100 / 100 & 97.1 / 99.9 / 100.0 / 100.0 \\
+Single-event arrivals + raw ID heartbeat & 12.2 / 22.9 / 40.5 / 54.2 & 14.1 / 25.4 / 43.7 / 57.6 \\
+15 s batching + raw ID heartbeat & 5.8 / 11.3 / 16.8 / 22.1 & 8.6 / 12.5 / 19.0 / 25.3 \\
+Rakshasutra as specified & 4.1 / 8.1 / 12.0 / 15.8 & 14.3 / 18.4 / 24.7 / 30.5 \\
+Rakshasutra without departure lists & -- & 9.7 / 12.4 / 17.0 / 21.3 \\
+\bottomrule\end{tabular}}
+\newcommand{\TableLink}{\begin{tabular}{@{}p{0.30\linewidth}lrrrl@{}}\toprule
+Link & PHY & $P_{tx}$ & Roof & $S_{rx}$ & Range or margin\\\midrule
+Wearable to pole, pole above the roof & BLE 1M & +4 & 24.1 & -96.0 & 4.1 m \\
+Wearable to pole, pole under the roof & BLE 1M & +8 & 0.0 & -96.0 & 82.2 m \\
+Wearable to pole, pole under the roof & BLE Coded S=8 & +8 & 0.0 & -103.0 & 174.1 m \\
+Pole to gateway, antenna under the roof & LoRa SF7 & +14 & 18.4 & -126.5 & -4.4 dB \\
+Pole to gateway, whip above the roof & LoRa SF7 & +14 & 0.0 & -126.5 & +16.1 dB \\
+\bottomrule\end{tabular}}
+\newcommand{\TablePower}{\begin{tabular}{@{}p{0.27\linewidth}lrrr@{}}\toprule
+State & Interval & Peak, mA & On, ms & Mean, \textmu A\\\midrule
+Sleep, 32.768 kHz clock and RAM retention & continuous & 0.0018 & -- & 1.80 \\
+Signed advertisement & every 0.8 s & 14.2 & 1.25 & 22.19 \\
+Scan window for a wake token & every 4 s & 4.6 & 5 & 5.75 \\
+AES-CMAC slot rotation & every 900 s & 3.8 & 0.45 & 0.00 \\
+\midrule Total on the trek &&&& 29.74 \\
+\bottomrule\end{tabular}}
+\newcommand{\TableZones}{\begin{tabular}{@{}llrrrl@{}}\toprule
+Zone & Segments & km & Poles & Spacing (m) & Backhaul\\\midrule
+1 & old-track & 6.0 & 56 & 107 & LoRaWAN \\
+2 & tarakote & 7.0 & 65 & 108 & LoRaWAN \\
+3 & adhkuwari & 0.5 & 20 & 25 & fibre LAN \\
+4 & himkoti + sanjichhat & 6.5 & 60 & 108 & LoRaWAN \\
+5 & bhawan & 1.0 & 40 & 25 & fibre LAN \\
+6 & bhairon & 1.5 & 14 & 107 & LoRaWAN \\
+\midrule & Total & 22.5 & 255 & & \\\bottomrule\end{tabular}}
+\newcommand{\TableAudit}{\begin{longtable}{@{}lp{0.40\linewidth}p{0.13\linewidth}p{0.21\linewidth}l@{}}\toprule
+& Claim & First draft & This model & Verdict\\\midrule\endhead
+A01 & Time on air, SOS frame (15 B, SF7) & 66.82 & 66.82 ms & reproduced \\
+A02 & Time on air, Bloom heartbeat (64 B, SF7) & 138.5 & 138.5 ms & reproduced \\
+A03 & Time on air, 25-tag chunk (200 B, SF7) & 338.18 & 338.18 ms & reproduced \\
+A04 & Pseudonyms that fit one raw 222-byte list & 55 & 55 IDs & reproduced \\
+A05 & Maximum allowable LoRa path loss, whip above the roof & 145.4 & 145.4 dB & reproduced \\
+A06 & BLE Coded PHY margin at 50 m, heavy crowd & 28.6 & 20.3 dB & differs \\
+A07 & BLE range at 98\% delivery, pole above the roof, 1M PHY, +4 dBm & 4.2 & 4.1 m & reproduced \\
+A08 & BLE range at 98\% delivery, pole under the roof, 1M PHY & 28.5 & 82.2 m & differs \\
+A09 & BLE range at 98\% delivery, pole under the roof, Coded PHY & 92.0 & 174.0 m & differs \\
+A10 & LoRa range, whip above the roof & 5.4-8.8 km & 16.1 dB margin at 8 km  & open \\
+A11 & LoRa range, antenna under the roof & 0.85 km & -4.4 dB margin at 8 km  & open \\
+A12 & Uplink loss, raw forwarding, 500 tags in the cell & 97.7 & 97.1 \% & reproduced \\
+A13 & Uplink loss, raw forwarding, 3,000 tags in the cell & 100.0 & 100.0 \% & reproduced \\
+A14 & Uplink loss, single-event arrivals, 500 tags in the cell & 12.2 & 14.1 \% & differs \\
+A15 & Uplink loss, single-event arrivals, 3,000 tags in the cell & 54.2 & 57.6 \% & differs \\
+A16 & Uplink loss, 15 s batching, 500 tags in the cell & 5.8 & 8.6 \% & differs \\
+A17 & Uplink loss, 15 s batching, 3,000 tags in the cell & 22.1 & 25.3 \% & differs \\
+A18 & Uplink loss, Rakshasutra, 500 tags in the cell & 4.1 & 14.3 \% & differs \\
+A19 & Uplink loss, Rakshasutra, 3,000 tags in the cell & 15.8 & 30.5 \% & differs \\
+A20 & Uplink loss, Rakshasutra without departure lists, 3,000 tags & 15.8 & 21.3 \% & design fix \\
+A21 & Reduction in LoRa airtime, 3,000 tags & 82.4 & 57.6 \% & differs \\
+A22 & Uplink loss in the deployed layout, 5,000 tags on the trek & $<$ 6 & 11.0 \% & differs \\
+A23 & Class A worst-case alert delay & 173 & 173.0 s & reproduced \\
+A24 & Distance walked during that delay & 215 & 216 m & reproduced \\
+A25 & Time an EV passenger spends in a 25 m core zone & 4.5 & 4.5 s & reproduced \\
+A26 & EV capture with one decoded frame required & 99.4 & 99.7 \% & reproduced \\
+A27 & Tether: chance one 5 ms scan hears the child's band & assumed 1 & 0.48 \% & design fix \\
+A28 & Tether: separation at which the alert sounds & 25-30 m & 174 m  & design fix \\
+A29 & Mean current on the trek (Table V) & 29.74 & 29.74 uA & reproduced \\
+A30 & Battery life at 25\,\textdegree C, from Table V & 14.2 & 48.2 months & differs \\
+A31 & Battery life at $-5$\,\textdegree C, from Table V & 11.1 & 33.8 months & differs \\
+A32 & Transmit time per advertisement on Coded PHY & 1.25 & 5.95 ms & differs \\
+A33 & Supply during an unbuffered buzzer pulse at $-5$\,\textdegree C & 1.61 & 1.61 V & reproduced \\
+A34 & Supply during the pulse with the 100 \textmu F capacitor & 2.68 & 1.61 V & design fix \\
+A35 & Chance of forging an SOS in one try & 2.33e-10 & 2.33e-10  & reproduced \\
+A36 & Chance of forging a wake token in one try & 5.96e-08 & 5.96e-08  & reproduced \\
+A37 & Pseudonyms are unique in the lookup table & assumed & 10\% chance of a clash  & design fix \\
+A38 & Replayed frames are rejected & all & outside the 3-slot window  & design fix \\
+A39 & Bloom heartbeat false-positive rate & not stated & 1.6\% at 50 tags, 57\% at 300  & open \\
+A40 & Pole spacing on the LoRa tracks & 25-100 m & 108 m  & differs \\
+A41 & Wearable transmit power on the nRF52811 & +8 dBm & +4 dBm  & open \\
+A42 & SOS reaches the control room within 4 s (3,000-tag surge) & all & 92\% (median 0.5 s)  & differs \\
+\bottomrule\end{longtable}}
+\newcommand{\TableParams}{\begin{longtable}{@{}p{0.25\linewidth}p{0.14\linewidth}lp{0.31\linewidth}@{}}\toprule
+Parameter & Value & Status & Source or note\\\midrule\endhead
+\texttt{trek\_km} & \raggedright 22.5 km & paper & WP-01 Sec. III-A, total of the six zones \\
+\texttt{poles\_total} & \raggedright 255 poles & paper & WP-01 Sec. III-A \\
+\texttt{poles\_fiber} & \raggedright 60 poles & paper & WP-01 Sec. V-D; zones 3 and 5 on the fibre LAN \\
+\texttt{gateways} & \raggedright 6 gateways & paper & WP-01 Sec. III-B \\
+\texttt{altitude\_min\_m} & \raggedright 762.0 m & paper & WP-01 Sec. III-A (2,500 ft) \\
+\texttt{altitude\_max\_m} & \raggedright 2017.0 m & paper & WP-01 Sec. III-A (6,619 ft) \\
+\texttt{zone4\_himkoti\_km} & \raggedright 3.5 km & assumed & split of the 6.5 km of zone 4 between its two parallel branches \\
+\texttt{zone4\_sanjichhat\_km} & \raggedright 3.0 km & assumed & split of the 6.5 km of zone 4 between its two parallel branches \\
+\texttt{ble\_tx\_dbm} & \raggedright 8.0 dBm & paper & WP-01 Eq. 2; note the nRF52811 named in the paper is specified to +4 dBm \\
+\texttt{ble\_tx\_dbm\_1m\_above} & \raggedright 4.0 dBm & paper & WP-01 Table III, first row \\
+\texttt{ble\_pl0\_db} & \raggedright 40.2 dB & paper & WP-01 Eq. 2, path loss at 1 m \\
+\texttt{ble\_exponent} & \raggedright 2.15  & paper & WP-01 Eq. 2, under the steel roof; not measured \\
+\texttt{ble\_sigma\_db} & \raggedright 4.2 dB & paper & WP-01 Eq. 2, log-normal shadowing \\
+\texttt{ble\_body\_db} & \raggedright 14.0 dB & paper & WP-01 Table III, heavy crowd \\
+\texttt{ble\_antenna\_gain\_db} & \raggedright 0.0 dB & assumed & sum of wearable and pole antenna gains; the paper gives none \\
+\texttt{ble\_sens\_1m\_dbm} & \raggedright -96.0 dBm & paper & WP-01 Table III \\
+\texttt{ble\_sens\_coded\_dbm} & \raggedright -103.0 dBm & paper & WP-01 Eq. 2, Coded PHY S=8 on ESP32-S3 \\
+\texttt{gi\_loss\_ble\_db} & \raggedright 24.1 dB & paper & WP-01 Sec. III-B, roof penetration at 2.44 GHz; not measured \\
+\texttt{gi\_loss\_lora\_db} & \raggedright 18.4 dB & paper & WP-01 Sec. III-B, roof penetration at 866 MHz; not measured \\
+\texttt{pdr\_target} & \raggedright 0.98  & paper & WP-01 Table III, 'reliable range' means at least 98\% delivery \\
+\texttt{lora\_tx\_dbm} & \raggedright 14.0 dBm & paper & WP-01 Sec. III-B \\
+\texttt{lora\_coax\_db} & \raggedright 0.9 dB & paper & WP-01 Sec. III-B, 1 m of RG-316 \\
+\texttt{lora\_gw\_gain\_dbi} & \raggedright 5.8 dBi & paper & WP-01 Sec. III-B \\
+\texttt{lora\_sens\_sf7\_dbm} & \raggedright -126.5 dBm & paper & WP-01 Sec. III-B, SX1302 \\
+\texttt{lora\_sens\_sf9\_dbm} & \raggedright -131.5 dBm & paper & WP-01 Sec. III-B, SX1302 \\
+\texttt{lora\_freq\_mhz} & \raggedright 866.0 MHz & standard & centre of IN865, LoRa Alliance RP002-1.0.4 \\
+\texttt{lora\_body\_internal\_db} & \raggedright 3.0 dB & paper & WP-01 Table III, internal antenna under the roof \\
+\texttt{ridge\_loss\_db} & \raggedright 20.0 dB & assumed & one knife-edge ridge between pole and gateway \\
+\texttt{lora\_channels} & \raggedright 8 channels & paper & WP-01 Sec. V-A \\
+\texttt{lora\_mac\_overhead} & \raggedright 13 bytes & standard & LoRaWAN MHDR, FHDR, FPort and MIC \\
+\texttt{lora\_max\_app\_bytes} & \raggedright 222 bytes & standard & IN865 DR5, repeater-compatible; RP002-1.0.4 \\
+\texttt{cell\_poles} & \raggedright 60 poles & paper & WP-01 Sec. VI-B \\
+\texttt{pass\_seconds} & \raggedright 55.0 s & paper & WP-01 Sec. VI-B, mean time between poles \\
+\texttt{raw\_ping\_seconds} & \raggedright 2.0 s & paper & WP-01 Table IV, row 1 \\
+\texttt{raw\_ping\_bytes} & \raggedright 7 bytes & assumed & 6-byte MAC and 1-byte RSSI per forwarded ping \\
+\texttt{arrival\_tuple\_bytes} & \raggedright 8 bytes & paper & WP-01 Algorithm 2, line 12 \\
+\texttt{departure\_bytes} & \raggedright 4 bytes & paper & WP-01 Algorithm 2, line 17 \\
+\texttt{chunk\_tags} & \raggedright 25 tags & paper & WP-01 Algorithm 2, line 16 \\
+\texttt{departure\_ids\_per\_frame} & \raggedright 50 ids & paper & WP-01 Algorithm 2, line 17 \\
+\texttt{flush\_seconds} & \raggedright 15.0 s & paper & WP-01 Algorithm 2 \\
+\texttt{heartbeat\_seconds} & \raggedright 60.0 s & paper & WP-01 Algorithm 2 \\
+\texttt{depart\_timeout\_s} & \raggedright 90.0 s & paper & WP-01 Algorithm 2, line 15 \\
+\texttt{rssi\_gate\_track\_dbm} & \raggedright -75.0 dBm & paper & WP-01 Algorithm 2, line 8 \\
+\texttt{rssi\_gate\_hub\_dbm} & \raggedright -65.0 dBm & paper & WP-01 Algorithm 2, line 8 \\
+\texttt{sos\_per\_minute} & \raggedright 10 frames & paper & WP-01 Algorithm 2, line 3 \\
+\texttt{adv\_interval\_s} & \raggedright 0.8 s & paper & WP-01 Sec. IV-C \\
+\texttt{adv\_interval\_sos\_s} & \raggedright 0.2 s & paper & WP-01 Sec. IV-C \\
+\texttt{slot\_seconds} & \raggedright 900 s & paper & WP-01 Sec. IV-C \\
+\texttt{walk\_mps} & \raggedright 1.25 m/s & paper & WP-01 Sec. V-C \\
+\texttt{ev\_mps} & \raggedright 5.56 m/s & paper & WP-01 Sec. V-C (20 km/h) \\
+\texttt{core\_zone\_m} & \raggedright 25.0 m & paper & WP-01 Sec. V-C, length of track a pole reports as 'here' \\
+\texttt{class\_a\_batch\_s} & \raggedright 15.0 s & paper & WP-01 Sec. V-C \\
+\texttt{class\_a\_confirm\_s} & \raggedright 90.0 s & paper & WP-01 Sec. V-C \\
+\texttt{class\_a\_downlink\_s} & \raggedright 60.0 s & paper & WP-01 Sec. V-C \\
+\texttt{class\_a\_gatt\_s} & \raggedright 8.0 s & paper & WP-01 Sec. V-C \\
+\texttt{tether\_scan\_period\_s} & \raggedright 5.0 s & paper & WP-01 Sec. V-C, Layer 1 \\
+\texttt{tether\_scan\_window\_s} & \raggedright 0.005 s & paper & WP-01 Sec. V-C, Layer 1 \\
+\texttt{tether\_misses} & \raggedright 4 scans & paper & WP-01 Sec. V-C, Layer 1 \\
+\texttt{adv\_delay\_max\_s} & \raggedright 0.01 s & standard & Bluetooth Core 5.1, random advDelay of 0 to 10 ms \\
+\texttt{separation\_alert\_m} & \raggedright 200.0 m & paper & WP-01 Sec. V-C, Layer 2 \\
+\texttt{suspect\_speed\_mps} & \raggedright 8.0 m/s & assumed & above the 5.56 m/s of an electric vehicle; faster sightings are flagged \\
+\texttt{suspect\_min\_m} & \raggedright 300.0 m & assumed & shorter hops are within radio range of two poles and are not flagged \\
+\texttt{class\_c\_downlink\_s} & \raggedright 1.0 s & assumed & server decision, network server and one Class C downlink \\
+\texttt{lorawan\_retry\_s} & \raggedright 3.0 s & assumed & wait before a confirmed uplink is repeated (RX2 window plus back-off) \\
+\texttt{backhaul\_s} & \raggedright 0.3 s & assumed & gateway to control-room alarm \\
+\texttt{battery\_mah} & \raggedright 620.0 mAh & paper & WP-01 Table V, CR2450 \\
+\texttt{battery\_cold\_derate} & \raggedright 0.3  & paper & WP-01 Sec. VI-C, capacity lost at $-5$\,\textdegree C \\
+\texttt{battery\_r\_warm\_ohm} & \raggedright 15.0 ohm & paper & WP-01 Sec. VI-C \\
+\texttt{battery\_r\_cold\_ohm} & \raggedright 42.0 ohm & paper & WP-01 Sec. VI-C \\
+\texttt{battery\_v\_cold} & \raggedright 2.95 V & paper & WP-01 Sec. VI-C, open-circuit voltage at $-5$\,\textdegree C \\
+\texttt{brownout\_v} & \raggedright 1.7 V & paper & WP-01 Sec. VI-C, nRF52811 minimum supply \\
+\texttt{i\_sleep\_ua} & \raggedright 1.8 uA & paper & WP-01 Table V \\
+\texttt{i\_tx\_ma} & \raggedright 14.2 mA & paper & WP-01 Table V \\
+\texttt{t\_tx\_ms} & \raggedright 1.25 ms & paper & WP-01 Table V; matches a 1M PHY event on three channels, not Coded PHY \\
+\texttt{i\_rx\_ma} & \raggedright 4.6 mA & paper & WP-01 Table V \\
+\texttt{t\_scan\_ms} & \raggedright 5.0 ms & paper & WP-01 Table V \\
+\texttt{scan\_period\_ms} & \raggedright 4000.0 ms & paper & WP-01 Table V \\
+\texttt{i\_cmac\_ma} & \raggedright 3.8 mA & paper & WP-01 Table V \\
+\texttt{t\_cmac\_ms} & \raggedright 0.45 ms & paper & WP-01 Table V \\
+\texttt{i\_rack\_ua} & \raggedright 0.6 uA & paper & WP-01 Table V \\
+\texttt{active\_hours} & \raggedright 14.0 h/day & paper & WP-01 Sec. VI-C \\
+\texttt{i\_pulse\_ma} & \raggedright 32.0 mA & paper & WP-01 Sec. VI-C, buzzer and LED \\
+\texttt{holdup\_uf} & \raggedright 100.0 uF & paper & WP-01 Sec. VI-C \\
+\texttt{pulse\_on\_ms} & \raggedright 100.0 ms & paper & WP-01 Sec. VI-C \\
+\texttt{pulse\_off\_ms} & \raggedright 400.0 ms & paper & WP-01 Sec. VI-C \\
+\texttt{company\_id} & \raggedright 65370  & paper & WP-01 Table II, laboratory identifier \\
+\texttt{bloom\_bits} & \raggedright 512 bits & paper & WP-01 Algorithm 2 \\
+\texttt{bloom\_probes} & \raggedright 3  & paper & WP-01 Algorithm 2, lines 20-22 \\
+\texttt{active\_table} & \raggedright 1024 entries & paper & WP-01 Algorithm 2 \\
+\texttt{window\_slots} & \raggedright 3 slots & paper & WP-01 Sec. IV-D \\
+\texttt{arbitration\_s} & \raggedright 15.0 s & paper & WP-01 Algorithm 1, line 12 \\
+\texttt{crystal\_ppm} & \raggedright 20.0 ppm & paper & WP-01 Sec. IV-D \\
+\texttt{truncation} & \raggedright leading bytes  & defined & Trunc keeps the first bytes of the CMAC, as in RFC 4493 \\
+\texttt{counter\_encoding} & \raggedright little-endian  & defined & the counter enters every CMAC input as it appears on air \\
+\texttt{wake\_token\_layout} & \raggedright id4\textbar{}cmd1\textbar{}tag3  & defined & the paper fixes 8 bytes and 24 bits of tag only \\
+\texttt{sos\_uplink\_layout} & \raggedright frame15\textbar{}rssi1  & defined & one RSSI byte is appended so the server can pick the nearest pole \\
+\texttt{bloom\_hashes} & \raggedright CRC-16/CCITT-FALSE, FNV-1a 32  & defined & the paper names CRC16 and FNV1a without variants \\
+\bottomrule\end{longtable}}

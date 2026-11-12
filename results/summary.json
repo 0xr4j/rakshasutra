@@ -1,0 +1,680 @@
+{
+ "version": "2026.11",
+ "note": "All values are calculated or simulated. Nothing has been measured.",
+ "airtime_ms": {
+  "7": 56.58,
+  "8": 56.58,
+  "15": 66.82,
+  "16": 66.82,
+  "64": 138.5,
+  "200": 338.18,
+  "222": 368.9
+ },
+ "airtime_sos_sf9_ms": 226.3,
+ "capacity": {
+  "raw": [
+   {
+    "tags": 500,
+    "load": 1.768,
+    "loss": 0.9709,
+    "oversize": 0.0,
+    "airtime_s": 14.144,
+    "streams": {
+     "forwarded ping": {
+      "frames_per_s": 250.0,
+      "mean_bytes": 7.0,
+      "loss": 0.9709
+     }
+    }
+   },
+   {
+    "tags": 1000,
+    "load": 3.536,
+    "loss": 0.9992,
+    "oversize": 0.0,
+    "airtime_s": 28.288,
+    "streams": {
+     "forwarded ping": {
+      "frames_per_s": 500.0,
+      "mean_bytes": 7.0,
+      "loss": 0.9992
+     }
+    }
+   },
+   {
+    "tags": 2000,
+    "load": 7.072,
+    "loss": 1.0,
+    "oversize": 0.0,
+    "airtime_s": 56.576,
+    "streams": {
+     "forwarded ping": {
+      "frames_per_s": 1000.0,
+      "mean_bytes": 7.0,
+      "loss": 1.0
+     }
+    }
+   },
+   {
+    "tags": 3000,
+    "load": 10.608,
+    "loss": 1.0,
+    "oversize": 0.0,
+    "airtime_s": 84.864,
+    "streams": {
+     "forwarded ping": {
+      "frames_per_s": 1500.0,
+      "mean_bytes": 7.0,
+      "loss": 1.0
+     }
+    }
+   }
+  ],
+  "single": [
+   {
+    "tags": 500,
+    "load": 0.076,
+    "loss": 0.141,
+    "oversize": 0.0,
+    "airtime_s": 0.608,
+    "streams": {
+     "arrival": {
+      "frames_per_s": 9.0909,
+      "mean_bytes": 8.0,
+      "loss": 0.137
+     },
+     "raw ID heartbeat": {
+      "frames_per_s": 0.9998,
+      "mean_bytes": 33.3,
+      "loss": 0.1765
+     }
+    }
+   },
+   {
+    "tags": 1000,
+    "load": 0.1464,
+    "loss": 0.2538,
+    "oversize": 0.0,
+    "airtime_s": 1.1711,
+    "streams": {
+     "arrival": {
+      "frames_per_s": 18.1818,
+      "mean_bytes": 8.0,
+      "loss": 0.2458
+     },
+     "raw ID heartbeat": {
+      "frames_per_s": 1.0,
+      "mean_bytes": 66.7,
+      "loss": 0.386
+     }
+    }
+   },
+   {
+    "tags": 2000,
+    "load": 0.2872,
+    "loss": 0.4369,
+    "oversize": 0.0002,
+    "airtime_s": 2.2972,
+    "streams": {
+     "arrival": {
+      "frames_per_s": 36.3636,
+      "mean_bytes": 8.0,
+      "loss": 0.4239
+     },
+     "raw ID heartbeat": {
+      "frames_per_s": 1.0002,
+      "mean_bytes": 133.3,
+      "loss": 0.7552
+     }
+    }
+   },
+   {
+    "tags": 3000,
+    "load": 0.4292,
+    "loss": 0.5761,
+    "oversize": 0.2155,
+    "airtime_s": 3.4335,
+    "streams": {
+     "arrival": {
+      "frames_per_s": 54.5455,
+      "mean_bytes": 8.0,
+      "loss": 0.5611
+     },
+     "raw ID heartbeat": {
+      "frames_per_s": 1.2155,
+      "mean_bytes": 164.5,
+      "loss": 0.9113
+     }
+    }
+   }
+  ],
+  "batch": [
+   {
+    "tags": 500,
+    "load": 0.0452,
+    "loss": 0.0864,
+    "oversize": 0.0,
+    "airtime_s": 0.3613,
+    "streams": {
+     "arrival batch": {
+      "frames_per_s": 3.5879,
+      "mean_bytes": 20.3,
+      "loss": 0.0842
+     },
+     "raw ID heartbeat": {
+      "frames_per_s": 0.9998,
+      "mean_bytes": 33.3,
+      "loss": 0.0942
+     }
+    }
+   },
+   {
+    "tags": 1000,
+    "load": 0.0666,
+    "loss": 0.1247,
+    "oversize": 0.0,
+    "airtime_s": 0.5329,
+    "streams": {
+     "arrival batch": {
+      "frames_per_s": 3.9575,
+      "mean_bytes": 36.8,
+      "loss": 0.1199
+     },
+     "raw ID heartbeat": {
+      "frames_per_s": 1.0,
+      "mean_bytes": 66.7,
+      "loss": 0.1435
+     }
+    }
+   },
+   {
+    "tags": 2000,
+    "load": 0.1056,
+    "loss": 0.1904,
+    "oversize": 0.0002,
+    "airtime_s": 0.845,
+    "streams": {
+     "arrival batch": {
+      "frames_per_s": 3.9996,
+      "mean_bytes": 72.7,
+      "loss": 0.1814
+     },
+     "raw ID heartbeat": {
+      "frames_per_s": 1.0002,
+      "mean_bytes": 133.3,
+      "loss": 0.2255
+     }
+    }
+   },
+   {
+    "tags": 3000,
+    "load": 0.1457,
+    "loss": 0.2528,
+    "oversize": 0.2155,
+    "airtime_s": 1.1654,
+    "streams": {
+     "arrival batch": {
+      "frames_per_s": 4.0017,
+      "mean_bytes": 109.0,
+      "loss": 0.2434
+     },
+     "raw ID heartbeat": {
+      "frames_per_s": 1.2155,
+      "mean_bytes": 164.5,
+      "loss": 0.2826
+     }
+    }
+   }
+  ],
+  "rakshasutra": [
+   {
+    "tags": 500,
+    "load": 0.0774,
+    "loss": 0.1435,
+    "oversize": 0.0,
+    "airtime_s": 0.6195,
+    "streams": {
+     "arrival chunk": {
+      "frames_per_s": 3.5879,
+      "mean_bytes": 20.3,
+      "loss": 0.1424
+     },
+     "departure list": {
+      "frames_per_s": 3.5879,
+      "mean_bytes": 10.1,
+      "loss": 0.1291
+     },
+     "Bloom heartbeat": {
+      "frames_per_s": 0.9998,
+      "mean_bytes": 64.0,
+      "loss": 0.1967
+     }
+    }
+   },
+   {
+    "tags": 1000,
+    "load": 0.1015,
+    "loss": 0.1837,
+    "oversize": 0.0,
+    "airtime_s": 0.8118,
+    "streams": {
+     "arrival chunk": {
+      "frames_per_s": 3.9575,
+      "mean_bytes": 36.8,
+      "loss": 0.1906
+     },
+     "departure list": {
+      "frames_per_s": 3.9575,
+      "mean_bytes": 18.4,
+      "loss": 0.1656
+     },
+     "Bloom heartbeat": {
+      "frames_per_s": 1.0,
+      "mean_bytes": 64.0,
+      "loss": 0.2257
+     }
+    }
+   },
+   {
+    "tags": 2000,
+    "load": 0.142,
+    "loss": 0.2472,
+    "oversize": 0.0,
+    "airtime_s": 1.136,
+    "streams": {
+     "arrival chunk": {
+      "frames_per_s": 3.9996,
+      "mean_bytes": 72.7,
+      "loss": 0.2681
+     },
+     "departure list": {
+      "frames_per_s": 3.9995,
+      "mean_bytes": 36.4,
+      "loss": 0.223
+     },
+     "Bloom heartbeat": {
+      "frames_per_s": 1.0,
+      "mean_bytes": 64.0,
+      "loss": 0.2575
+     }
+    }
+   },
+   {
+    "tags": 3000,
+    "load": 0.1819,
+    "loss": 0.305,
+    "oversize": 0.0,
+    "airtime_s": 1.4553,
+    "streams": {
+     "arrival chunk": {
+      "frames_per_s": 4.0074,
+      "mean_bytes": 108.9,
+      "loss": 0.3375
+     },
+     "departure list": {
+      "frames_per_s": 4.0,
+      "mean_bytes": 54.5,
+      "loss": 0.2755
+     },
+     "Bloom heartbeat": {
+      "frames_per_s": 1.0,
+      "mean_bytes": 64.0,
+      "loss": 0.2867
+     }
+    }
+   }
+  ],
+  "rakshasutra-nodep": [
+   {
+    "tags": 500,
+    "load": 0.0508,
+    "loss": 0.0965,
+    "oversize": 0.0,
+    "airtime_s": 0.4061,
+    "streams": {
+     "arrival chunk": {
+      "frames_per_s": 3.5879,
+      "mean_bytes": 20.3,
+      "loss": 0.0893
+     },
+     "Bloom heartbeat": {
+      "frames_per_s": 0.9998,
+      "mean_bytes": 64.0,
+      "loss": 0.1221
+     }
+    }
+   },
+   {
+    "tags": 1000,
+    "load": 0.0661,
+    "loss": 0.1239,
+    "oversize": 0.0,
+    "airtime_s": 0.529,
+    "streams": {
+     "arrival chunk": {
+      "frames_per_s": 3.9575,
+      "mean_bytes": 36.8,
+      "loss": 0.1195
+     },
+     "Bloom heartbeat": {
+      "frames_per_s": 1.0,
+      "mean_bytes": 64.0,
+      "loss": 0.141
+     }
+    }
+   },
+   {
+    "tags": 2000,
+    "load": 0.0929,
+    "loss": 0.1696,
+    "oversize": 0.0,
+    "airtime_s": 0.7435,
+    "streams": {
+     "arrival chunk": {
+      "frames_per_s": 3.9996,
+      "mean_bytes": 72.7,
+      "loss": 0.171
+     },
+     "Bloom heartbeat": {
+      "frames_per_s": 1.0,
+      "mean_bytes": 64.0,
+      "loss": 0.1643
+     }
+    }
+   },
+   {
+    "tags": 3000,
+    "load": 0.1196,
+    "loss": 0.2127,
+    "oversize": 0.0,
+    "airtime_s": 0.9567,
+    "streams": {
+     "arrival chunk": {
+      "frames_per_s": 4.0074,
+      "mean_bytes": 108.9,
+      "loss": 0.2192
+     },
+     "Bloom heartbeat": {
+      "frames_per_s": 1.0,
+      "mean_bytes": 64.0,
+      "loss": 0.1864
+     }
+    }
+   }
+  ]
+ },
+ "airtime_reduction_vs_single": 0.5761,
+ "airtime_reduction_vs_single_nodep": 0.7214,
+ "airtime_change_vs_batch": 0.2487,
+ "airtime_change_vs_batch_nodep": -0.1791,
+ "bloom_pays_from_tags": 960,
+ "deployed": {
+  "tags": 637,
+  "poles": 32,
+  "load": 0.0584,
+  "loss": 0.1103,
+  "load_nodep": 0.0381,
+  "loss_nodep": 0.0733
+ },
+ "montecarlo": {
+  "seconds": 3600,
+  "frames": 695304,
+  "max_abs_loss_error": 0.0168,
+  "max_abs_load_error": 0.001
+ },
+ "link": {
+  "rows": [
+   {
+    "link": "Wearable to pole, pole above the roof",
+    "phy": "BLE 1M",
+    "tx_dbm": 4.0,
+    "roof_db": 24.1,
+    "sens_dbm": -96.0,
+    "range_m": 4.06
+   },
+   {
+    "link": "Wearable to pole, pole under the roof",
+    "phy": "BLE 1M",
+    "tx_dbm": 8.0,
+    "roof_db": 0.0,
+    "sens_dbm": -96.0,
+    "range_m": 82.24
+   },
+   {
+    "link": "Wearable to pole, pole under the roof",
+    "phy": "BLE Coded S=8",
+    "tx_dbm": 8.0,
+    "roof_db": 0.0,
+    "sens_dbm": -103.0,
+    "range_m": 174.05
+   },
+   {
+    "link": "Pole to gateway, antenna under the roof",
+    "phy": "LoRa SF7",
+    "tx_dbm": 14.0,
+    "roof_db": 18.4,
+    "sens_dbm": -126.5,
+    "mapl_db": 124.9,
+    "margin_4km_db": 1.66,
+    "margin_8km_db": -4.36
+   },
+   {
+    "link": "Pole to gateway, whip above the roof",
+    "phy": "LoRa SF7",
+    "tx_dbm": 14.0,
+    "roof_db": 0.0,
+    "sens_dbm": -126.5,
+    "mapl_db": 145.4,
+    "margin_4km_db": 22.16,
+    "margin_8km_db": 16.14
+   }
+  ],
+  "margin_50m_db": 20.3,
+  "mapl_db": 145.4,
+  "core_zone_gate_m": 21.9,
+  "hub_gate_m": 7.5
+ },
+ "power": {
+  "table": [
+   {
+    "state": "Sleep, 32.768 kHz clock and RAM retention",
+    "peak_ma": 0.0018,
+    "on_ms": null,
+    "period_ms": null,
+    "mean_ua": 1.8
+   },
+   {
+    "state": "Signed advertisement",
+    "peak_ma": 14.2,
+    "on_ms": 1.25,
+    "period_ms": 800.0,
+    "mean_ua": 22.1875
+   },
+   {
+    "state": "Scan window for a wake token",
+    "peak_ma": 4.6,
+    "on_ms": 5.0,
+    "period_ms": 4000.0,
+    "mean_ua": 5.75
+   },
+   {
+    "state": "AES-CMAC slot rotation",
+    "peak_ma": 3.8,
+    "on_ms": 0.45,
+    "period_ms": 900000.0,
+    "mean_ua": 0.0019
+   }
+  ],
+  "active_ua": 29.74,
+  "life_warm": 48.2,
+  "life_cold": 33.8,
+  "adv_ms_1m": 0.792,
+  "adv_ms_coded": 5.952,
+  "active_ua_coded": 113.2,
+  "life_warm_coded": 12.8,
+  "life_cold_coded": 9.0,
+  "droop_unbuffered": 1.61,
+  "droop_100uf": 1.61,
+  "tau_ms": 4.2,
+  "capacitor_needed_uf": 895.0,
+  "max_pulse_ma": 29.8
+ },
+ "tether": {
+  "hit_5ms": 0.0048,
+  "miss4_5ms": 0.981,
+  "time_in_false_alarm_5ms": 0.9813,
+  "window_needed_ms": 811.0,
+  "scan_ua_needed": 746.0,
+  "scan_ua_5ms": 4.6,
+  "parent_life_months": 1.9,
+  "alert_delay_s": 20.0,
+  "range_m": 174.0,
+  "rssi_gate_30m": -78.0
+ },
+ "ev": {
+  "pass_s": 4.5,
+  "capture_150": 0.9966,
+  "capture_300": 0.9498,
+  "slow2_h3": 0.2482,
+  "slow5_h3": 0.0,
+  "slow5_h1": 0.8993,
+  "class_a_s": 173.0,
+  "class_a_walk_m": 216.0
+ },
+ "sos": {
+  "tags": 3000,
+  "crowd": 50,
+  "fiber": false,
+  "first_try_loss": 0.2267,
+  "retry_loss": 0.3538,
+  "delivered": 0.9998,
+  "median_s": 0.5163,
+  "p95_s": 6.9524,
+  "within_4s": 0.9178,
+  "within_5s": 0.9204,
+  "toa_sf7_ms": 66.816,
+  "toa_sf9_ms": 226.304
+ },
+ "sos_500": {
+  "tags": 500,
+  "crowd": 50,
+  "fiber": false,
+  "first_try_loss": 0.1356,
+  "retry_loss": 0.2656,
+  "delivered": 1.0,
+  "median_s": 0.5005,
+  "p95_s": 3.791,
+  "within_4s": 0.9626,
+  "within_5s": 0.9645,
+  "toa_sf7_ms": 66.816,
+  "toa_sf9_ms": 226.304
+ },
+ "sos_fiber": {
+  "tags": 3000,
+  "crowd": 50,
+  "fiber": true,
+  "first_try_loss": 0.0,
+  "retry_loss": 0.3538,
+  "delivered": 1.0,
+  "median_s": 0.4157,
+  "p95_s": 0.6471,
+  "within_4s": 1.0,
+  "within_5s": 1.0,
+  "toa_sf7_ms": 66.816,
+  "toa_sf9_ms": 226.304
+ },
+ "bloom": {
+  "fpr_50": 0.0164,
+  "fpr_100": 0.0872,
+  "fpr_300": 0.5668,
+  "cap_1pct": 41,
+  "cap_5pct": 78
+ },
+ "pseudonym_clash_10000": 0.0995,
+ "trek": {
+  "poles": 255,
+  "zones": [
+   {
+    "zone": 1,
+    "km": 6.0,
+    "poles": 56,
+    "fiber": false,
+    "segments": [
+     "old-track"
+    ],
+    "spacing_m": 107.1
+   },
+   {
+    "zone": 2,
+    "km": 7.0,
+    "poles": 65,
+    "fiber": false,
+    "segments": [
+     "tarakote"
+    ],
+    "spacing_m": 107.7
+   },
+   {
+    "zone": 3,
+    "km": 0.5,
+    "poles": 20,
+    "fiber": true,
+    "segments": [
+     "adhkuwari"
+    ],
+    "spacing_m": 25.0
+   },
+   {
+    "zone": 4,
+    "km": 6.5,
+    "poles": 60,
+    "fiber": false,
+    "segments": [
+     "himkoti",
+     "sanjichhat"
+    ],
+    "spacing_m": 108.3
+   },
+   {
+    "zone": 5,
+    "km": 1.0,
+    "poles": 40,
+    "fiber": true,
+    "segments": [
+     "bhawan"
+    ],
+    "spacing_m": 25.0
+   },
+   {
+    "zone": 6,
+    "km": 1.5,
+    "poles": 14,
+    "fiber": false,
+    "segments": [
+     "bhairon"
+    ],
+    "spacing_m": 107.1
+   }
+  ],
+  "end_to_end_km": 11.89,
+  "branch_example_m": 3026.0
+ },
+ "walk": {
+  "uplinks": 151,
+  "split_s": 690.0,
+  "separation_flag_s": 795.2,
+  "separation_delay_s": 105.2,
+  "separation_detail": "243 m apart along the track; wake tokens multicast",
+  "sos_pressed_s": 840.0,
+  "sos_alarm_s": 840.3,
+  "sos_delay_s": 0.29,
+  "sos_pole": 175,
+  "events": 55
+ },
+ "audit_summary": {
+  "reproduced": 16,
+  "differs": 16,
+  "design fix": 6,
+  "open": 4
+ }
+}

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 360" role="img" aria-label="Rakshasutra: a thread through the crowd. A parent and a child walk a branching mountain route and take different tracks at a junction.">
+<rect width="1280" height="360" fill="#171A2B"/>
+<g transform="translate(250,95) scale(0.8,0.78)">
+<path d="M70 300 C 220 220, 340 190, 520 178" fill="none" stroke="#C0271D" stroke-width="3.6" stroke-linecap="round"/>
+<path d="M70 300 C 260 316, 400 268, 520 178" fill="none" stroke="#C0271D" stroke-width="3.6" stroke-linecap="round"/>
+<path d="M520 178 L 580 168" fill="none" stroke="#C0271D" stroke-width="3.6" stroke-linecap="round"/>
+<path d="M580 168 C 660 90, 780 98, 880 124" fill="none" stroke="#C0271D" stroke-width="3.6" stroke-linecap="round"/>
+<path d="M580 168 C 680 188, 790 178, 880 124" fill="none" stroke="#C0271D" stroke-width="3.6" stroke-linecap="round"/>
+<path d="M880 124 L 950 114 C 1010 90, 1080 60, 1150 40" fill="none" stroke="#C0271D" stroke-width="3.6" stroke-linecap="round"/>
+<circle cx="70" cy="300" r="5.5" fill="#171A2B" stroke="#F6F1E7" stroke-width="2.2"><animate attributeName="r" values="5.5;8.5;5.5" dur="3.2s" begin="0.00s" repeatCount="indefinite"/></circle>
+<circle cx="160" cy="251" r="5.5" fill="#171A2B" stroke="#F6F1E7" stroke-width="2.2"><animate attributeName="r" values="5.5;8.5;5.5" dur="3.2s" begin="0.37s" repeatCount="indefinite"/></circle>
+<circle cx="255" cy="216" r="5.5" fill="#171A2B" stroke="#F6F1E7" stroke-width="2.2"><animate attributeName="r" values="5.5;8.5;5.5" dur="3.2s" begin="0.74s" repeatCount="indefinite"/></circle>
+<circle cx="350" cy="195" r="5.5" fill="#171A2B" stroke="#F6F1E7" stroke-width="2.2"><animate attributeName="r" values="5.5;8.5;5.5" dur="3.2s" begin="1.11s" repeatCount="indefinite"/></circle>
+<circle cx="440" cy="184" r="5.5" fill="#171A2B" stroke="#F6F1E7" stroke-width="2.2"><animate attributeName="r" values="5.5;8.5;5.5" dur="3.2s" begin="1.48s" repeatCount="indefinite"/></circle>
+<circle cx="520" cy="178" r="5.5" fill="#171A2B" stroke="#F6F1E7" stroke-width="2.2"><animate attributeName="r" values="5.5;8.5;5.5" dur="3.2s" begin="1.85s" repeatCount="indefinite"/></circle>
+<circle cx="175" cy="305" r="5.5" fill="#171A2B" stroke="#F6F1E7" stroke-width="2.2"><animate attributeName="r" values="5.5;8.5;5.5" dur="3.2s" begin="2.22s" repeatCount="indefinite"/></circle>
+<circle cx="290" cy="290" r="5.5" fill="#171A2B" stroke="#F6F1E7" stroke-width="2.2"><animate attributeName="r" values="5.5;8.5;5.5" dur="3.2s" begin="2.59s" repeatCount="indefinite"/></circle>
+<circle cx="395" cy="255" r="5.5" fill="#171A2B" stroke="#F6F1E7" stroke-width="2.2"><animate attributeName="r" values="5.5;8.5;5.5" dur="3.2s" begin="2.96s" repeatCount="indefinite"/></circle>
+<circle cx="470" cy="215" r="5.5" fill="#171A2B" stroke="#F6F1E7" stroke-width="2.2"><animate attributeName="r" values="5.5;8.5;5.5" dur="3.2s" begin="0.13s" repeatCount="indefinite"/></circle>
+<circle cx="550" cy="173" r="5.5" fill="#171A2B" stroke="#F6F1E7" stroke-width="2.2"><animate attributeName="r" values="5.5;8.5;5.5" dur="3.2s" begin="0.50s" repeatCount="indefinite"/></circle>
+<circle cx="580" cy="168" r="5.5" fill="#171A2B" stroke="#F6F1E7" stroke-width="2.2"><animate attributeName="r" values="5.5;8.5;5.5" dur="3.2s" begin="0.87s" repeatCount="indefinite"/></circle>
+<circle cx="640" cy="122" r="5.5" fill="#171A2B" stroke="#F6F1E7" stroke-width="2.2"><animate attributeName="r" values="5.5;8.5;5.5" dur="3.2s" begin="1.24s" repeatCount="indefinite"/></circle>
+<circle cx="715" cy="100" r="5.5" fill="#171A2B" stroke="#F6F1E7" stroke-width="2.2"><animate attributeName="r" values="5.5;8.5;5.5" dur="3.2s" begin="1.61s" repeatCount="indefinite"/></circle>
+<circle cx="800" cy="104" r="5.5" fill="#171A2B" stroke="#F6F1E7" stroke-width="2.2"><animate attributeName="r" values="5.5;8.5;5.5" dur="3.2s" begin="1.98s" repeatCount="indefinite"/></circle>
+<circle cx="880" cy="124" r="5.5" fill="#171A2B" stroke="#F6F1E7" stroke-width="2.2"><animate attributeName="r" values="5.5;8.5;5.5" dur="3.2s" begin="2.35s" repeatCount="indefinite"/></circle>
+<circle cx="660" cy="179" r="5.5" fill="#171A2B" stroke="#F6F1E7" stroke-width="2.2"><animate attributeName="r" values="5.5;8.5;5.5" dur="3.2s" begin="2.72s" repeatCount="indefinite"/></circle>
+<circle cx="745" cy="174" r="5.5" fill="#171A2B" stroke="#F6F1E7" stroke-width="2.2"><animate attributeName="r" values="5.5;8.5;5.5" dur="3.2s" begin="3.09s" repeatCount="indefinite"/></circle>
+<circle cx="820" cy="155" r="5.5" fill="#171A2B" stroke="#F6F1E7" stroke-width="2.2"><animate attributeName="r" values="5.5;8.5;5.5" dur="3.2s" begin="0.26s" repeatCount="indefinite"/></circle>
+<circle cx="950" cy="114" r="5.5" fill="#171A2B" stroke="#F6F1E7" stroke-width="2.2"><animate attributeName="r" values="5.5;8.5;5.5" dur="3.2s" begin="0.63s" repeatCount="indefinite"/></circle>
+<circle cx="1020" cy="87" r="5.5" fill="#171A2B" stroke="#F6F1E7" stroke-width="2.2"><animate attributeName="r" values="5.5;8.5;5.5" dur="3.2s" begin="1.00s" repeatCount="indefinite"/></circle>
+<circle cx="1085" cy="62" r="5.5" fill="#171A2B" stroke="#F6F1E7" stroke-width="2.2"><animate attributeName="r" values="5.5;8.5;5.5" dur="3.2s" begin="1.37s" repeatCount="indefinite"/></circle>
+<circle cx="1150" cy="40" r="5.5" fill="#171A2B" stroke="#F6F1E7" stroke-width="2.2"><animate attributeName="r" values="5.5;8.5;5.5" dur="3.2s" begin="1.74s" repeatCount="indefinite"/></circle>
+<circle r="7" fill="#F6F1E7"><animateMotion dur="22s" repeatCount="indefinite" path="M70 300 C 220 220, 340 190, 520 178 L 580 168 C 680 188, 790 178, 880 124 L 950 114"/></circle>
+<circle r="5.5" fill="#C0271D" stroke="#F6F1E7" stroke-width="2"><animateMotion dur="22s" begin="0.4s" repeatCount="indefinite" path="M70 300 C 220 220, 340 190, 520 178 L 580 168 C 660 90, 780 98, 880 124 L 950 114"/></circle>
+</g>
+<text x="70" y="62" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="20" font-weight="600" letter-spacing="3" fill="#F6F1E7">RAKSHASUTRA</text>
+<text x="70" y="128" font-family="Georgia,'Times New Roman',serif" font-size="58" font-weight="700" fill="#F6F1E7">A thread through the crowd.</text>
+<text x="70" y="166" font-family="'IBM Plex Sans','Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#A9ADC4">Finding separated pilgrims on a mountain route, without phones or cellular coverage.</text>
+<text x="1210" y="336" text-anchor="end" font-family="'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace" font-size="13" fill="#7C819C">design and calculation · nothing measured yet</text>
+</svg>

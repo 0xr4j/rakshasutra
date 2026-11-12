@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this software or its results, please cite the book below."
+title: "Rakshasutra"
+type: software
+version: "2026.11"
+authors:
+  - family-names: "Jha"
+    given-names: "Raj"
+    affiliation: "Independent researcher"
+date-released: 2026-11-12
+license: MIT
+repository-code: "https://github.com/0xr4j/rakshasutra"
+url: "https://0xr4j.github.io/rakshasutra/"
+keywords: [BLE, LoRaWAN, crowd localisation, privacy, AES-CMAC, Bloom filter, edge filtering, pilgrimage safety]
+preferred-citation:
+  type: book
+  title: "A Thread Through the Crowd. Rakshasutra: Design, Model and Audit"
+  authors:
+    - family-names: "Jha"
+      given-names: "Raj"
+  year: 2026
+  month: 11
+  publisher:
+    name: "Self-published"
+  url: "https://github.com/0xr4j/rakshasutra"

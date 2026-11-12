@@ -1,0 +1,7 @@
+zone,segments,length_km,poles,mean_spacing_m,backhaul,hits_required
+1,old-track,6.0,56,107.1,LoRaWAN,1
+2,tarakote,7.0,65,107.7,LoRaWAN,1
+3,adhkuwari,0.5,20,25.0,fibre LAN,3
+4,himkoti+sanjichhat,6.5,60,108.3,LoRaWAN,1
+5,bhawan,1.0,40,25.0,fibre LAN,3
+6,bhairon,1.5,14,107.1,LoRaWAN,1

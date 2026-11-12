@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rakshasutra"
+version = "2026.11"
+description = "Reference model of a privacy-preserving BLE and LoRaWAN system for finding separated children and elders on mountain pilgrimage routes without cellular coverage."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "Raj Jha"}]
+dependencies = ["numpy>=1.24"]
+
+[project.optional-dependencies]
+research = ["matplotlib>=3.7", "pillow>=10"]
+
+[project.scripts]
+rakshasutra = "rakshasutra.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

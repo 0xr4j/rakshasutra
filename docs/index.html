@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Rakshasutra</title>
+<meta name="description" content="Rakshasutra is an open design for finding separated children and elders on a mountain pilgrimage route without phones or cellular coverage: a signed Bluetooth wristband, poles that filter at the edge, and LoRaWAN. Design and calculation; nothing built or measured yet.">
+<meta name="theme-color" content="#F6F1E7">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Rakshasutra">
+<meta property="og:title" content="Rakshasutra · A thread through the crowd">
+<meta property="og:description" content="An open design for finding separated children and elders on a mountain pilgrimage route, without phones or cellular coverage. Every number recomputed by open code.">
+<meta property="og:url" content="https://0xr4j.github.io/rakshasutra/">
+<meta property="og:image" content="https://0xr4j.github.io/rakshasutra/img/og-card.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="rs-icon.svg" type="image/svg+xml"><link rel="icon" href="rs-icon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="rs-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#F6F1E7;--paper2:#EDE6D6;--ink:#171A2B;--muted:#626880;--red:#C0271D;--rule:#D9D2C2;--night:#14172A;--cream:#F6F1E7;
+--serif:"Fraunces",Georgia,serif;--sans:"IBM Plex Sans",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration-color:var(--red);text-underline-offset:3px}a:hover{color:var(--red)}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+nav .wrap{display:flex;align-items:center;gap:22px;height:56px;font-size:14px}
+nav .brand{font:600 17px var(--serif);letter-spacing:.01em;text-decoration:none;display:flex;align-items:center;gap:9px;margin-right:auto}
+nav a{text-decoration:none;color:var(--muted)}nav a:hover,nav a[aria-current]{color:var(--ink)}
+nav .links{display:flex;gap:20px;overflow-x:auto;white-space:nowrap}
+.knot{width:13px;height:13px;border-radius:50%;border:2.5px solid var(--red);display:inline-block;flex:none}
+h1,h2,h3{font-family:var(--serif);font-weight:560;line-height:1.08;letter-spacing:-.012em;margin:0;text-wrap:balance}
+h2{font-size:clamp(30px,4.6vw,48px)}h3{font-size:21px;line-height:1.25}
+p{margin:0 0 1em;max-width:66ch;text-wrap:pretty}
+.eyebrow{font:500 12.5px var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--red);margin-bottom:14px;display:block}
+.tag{font:500 11px var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--muted);border:1px solid var(--rule);border-radius:3px;padding:1px 6px;white-space:nowrap}
+.btn{display:inline-flex;align-items:center;gap:8px;font:500 15px var(--sans);padding:11px 18px;border:1.5px solid var(--ink);text-decoration:none;border-radius:2px;background:transparent;color:var(--ink);cursor:pointer}
+.btn.primary{background:var(--red);border-color:var(--red);color:#fff}.btn:hover{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+section{padding:92px 0;position:relative}section.alt{background:var(--paper2)}
+section.dark{background:var(--night);color:var(--cream)}section.dark .eyebrow{color:#EF7A6E}section.dark p{color:#C9CBD8}
+section.dark .tag{border-color:#3A3F5C;color:#A9ADC4}
+.mono{font-family:var(--mono)}
+footer{border-top:1px solid var(--rule);padding:36px 0 56px;font-size:14px;color:var(--muted)}
+footer p{max-width:none}
+@media (max-width:640px){body{font-size:16px}section{padding:64px 0}nav .wrap{gap:14px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+
+/* ---------- hero */
+.hero{padding:64px 0 0;overflow:hidden}
+.hero h1{font-size:clamp(46px,8.6vw,112px);letter-spacing:-.03em;max-width:11ch}
+.hero h1 em{font-style:italic;color:var(--red);font-weight:420}
+.hero .lede{font-size:clamp(18px,2.1vw,22px);max-width:54ch;margin:26px 0 30px;color:#33384F}
+.hero .cta{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:22px}
+.status{display:inline-flex;gap:10px;align-items:baseline;font:500 13px var(--mono);color:var(--muted);border-left:3px solid var(--red);padding:2px 0 2px 12px;max-width:60ch}
+.route{display:block;width:100%;height:auto;margin-top:28px}
+.route .track{fill:none;stroke:var(--red);stroke-width:2.4;stroke-linecap:round}
+.route .pole{fill:var(--paper);stroke:var(--ink);stroke-width:1.6}
+.route .pole.fib{stroke:var(--red)}
+.route text{font:500 11.5px var(--mono);fill:var(--muted);letter-spacing:.03em}
+.route .ping{fill:none;stroke:var(--red);stroke-width:1.5;opacity:0}
+@media (max-width:640px){.route text{display:none}}
+@keyframes ping{0%{r:4;opacity:.9}100%{r:26;opacity:0}}
+.route .walker{fill:var(--ink)}.route .walker.child{fill:var(--red)}
+/* ---------- thread down the page */
+.thread{position:absolute;left:max(24px,calc(50% - 540px + 24px));top:0;bottom:0;width:0;border-left:1.5px solid var(--red);opacity:.55}
+.threaded .wrap{padding-left:64px}.threaded .eyebrow{position:relative}
+.threaded .eyebrow::before{content:"";position:absolute;left:-47.5px;top:1px;width:13px;height:13px;border-radius:50%;background:var(--paper);border:2.5px solid var(--red)}
+section.alt.threaded .eyebrow::before{background:var(--paper2)}section.dark.threaded .eyebrow::before{background:var(--night)}
+@media (max-width:640px){.threaded .wrap{padding-left:46px}.thread{left:22px}.threaded .eyebrow::before{left:-31.5px}}
+/* ---------- content blocks */
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:34px 40px;margin-top:44px}
+.cols h3{margin-bottom:8px}.cols p{font-size:16px;color:#3A3F55;margin:0}
+.num{font:500 13px var(--mono);color:var(--red);display:block;margin-bottom:10px}
+.lead{font-size:19px;color:#33384F;margin-top:18px}
+.frame{display:grid;grid-template-columns:repeat(15,minmax(0,1fr));gap:3px;margin:40px 0 10px;max-width:860px}
+.frame b{font:500 clamp(10px,1.6vw,15px) var(--mono);background:var(--paper);border:1px solid var(--ink);padding:10px 0;text-align:center;transition:background .4s,color .4s}
+.frame b.id,.frame b.mic{background:var(--ink);color:var(--paper)}.frame b.flip{background:var(--red);border-color:var(--red);color:#fff}
+.legend{display:grid;grid-template-columns:repeat(15,minmax(0,1fr));gap:3px;max-width:860px;font:500 11px var(--mono);color:var(--muted)}
+.legend span{border-top:1.5px solid var(--ink);padding-top:6px;line-height:1.3}
+.slot{font:500 13px var(--mono);color:var(--muted);margin-top:18px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:0;margin-top:48px;border-top:1px solid #3A3F5C}
+.stat{padding:26px 22px 26px 0;border-bottom:1px solid #3A3F5C}
+.stat .v{font:520 clamp(40px,5.4vw,60px)/1 var(--serif);letter-spacing:-.02em;color:var(--cream)}.stat .v small{font-size:.45em;font-weight:400;margin-left:3px}
+.stat p{font-size:15px;margin:10px 0 8px;color:#C9CBD8}
+figure{margin:44px 0 0}figure img{width:100%;height:auto;display:block;background:#fff;border:1px solid var(--rule)}
+figcaption{font-size:14px;color:var(--muted);margin-top:10px;max-width:70ch}
+section.dark figcaption{color:#A9ADC4}
+.fixes{margin-top:40px;border-top:1.5px solid var(--ink)}
+.fix{display:grid;grid-template-columns:minmax(150px,220px) 1fr 1fr;gap:10px 30px;padding:22px 0;border-bottom:1px solid var(--rule)}
+.fix h3{font-size:19px}.fix p{font-size:15.5px;margin:0}.fix .was{color:var(--muted)}.fix .was::before,.fix .is::before{display:block;font:500 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.fix .was::before{content:"First draft";color:var(--muted)}.fix .is::before{content:"What the model says";color:var(--red)}
+@media (max-width:760px){.fix{grid-template-columns:1fr}}
+.tally{display:flex;flex-wrap:wrap;gap:8px 28px;margin-top:26px;font:500 14px var(--mono)}.tally b{font:560 28px var(--serif);margin-right:6px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:44px}
+.card{display:flex;flex-direction:column;gap:8px;padding:24px;border:1.5px solid var(--ink);text-decoration:none;background:var(--paper);transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translate(-3px,-3px);box-shadow:6px 6px 0 var(--red);color:var(--ink)}
+.card p{font-size:15px;color:#3A3F55;margin:0}.card .go{margin-top:auto;padding-top:10px;font:500 13px var(--mono);color:var(--red)}
+pre{font:14px/1.6 var(--mono);background:var(--night);color:var(--cream);padding:20px 22px;overflow-x:auto;margin:32px 0 0;border-radius:2px}
+pre .c{color:#8D92AC}
+.road{margin-top:40px;border-left:1.5px solid var(--red);padding-left:0;list-style:none}
+.road li{position:relative;padding:0 0 26px 30px}.road li::before{content:"";position:absolute;left:-7.5px;top:5px;width:13px;height:13px;border-radius:50%;background:var(--paper2);border:2.5px solid var(--red)}
+.road li.done::before{background:var(--red)}.road h3{font-size:19px;display:inline}.road p{font-size:15.5px;margin:4px 0 0;color:#3A3F55}
+.rv{opacity:0;transform:translateY(14px);transition:opacity .7s,transform .7s}.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+  <a class="brand" href="./"><span class="knot"></span>Rakshasutra</a>
+  <div class="links"><a href="#how">How it works</a><a href="#numbers">Numbers</a><a href="#audit">Audit</a><a href="#read">Read</a>
+  <a href="explorer.html">Explorer</a><a href="https://github.com/0xr4j/rakshasutra">GitHub</a></div>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <span class="eyebrow">An open design · November 2026</span>
+  <h1>A thread through the <em>crowd.</em></h1>
+  <p class="lede">A child lets go of a hand on a mountain path with ten million pilgrims a year. Phones are in a locker, the network is down in the valley, and the path forks twice. Rakshasutra is a wristband that announces itself, and poles that listen.</p>
+  <div class="cta"><a class="btn primary" href="explorer.html">Open the explorer</a><a class="btn" href="A-Thread-Through-the-Crowd-Rakshasutra.pdf">Read the book</a><a class="btn" href="https://github.com/0xr4j/rakshasutra">Code on GitHub</a></div>
+  <p class="status">Design and calculation. Nothing has been built or measured yet, and every number on this page says whether it is calculated or simulated.</p>
+</div>
+<svg class="route" viewBox="0 0 1200 330" role="img" aria-label="The model route drawn as a thread: two tracks from Banganga meet at Adhkuwari, split again into the Himkoti and Sanjichhat tracks, meet at the Bhawan and climb to Bhairon Ghati. A parent and a child walk together, take different branches at the junction, and the poles near each light up as they pass.">
+  <path id="tA" class="track" d="M60 285 C 210 205, 330 170, 520 160"/>
+  <path id="tB" class="track" d="M60 285 C 250 300, 400 250, 520 160"/>
+  <path id="tH" class="track" d="M520 160 L 580 150"/>
+  <path id="tC" class="track" d="M580 150 C 660 70, 780 80, 880 105"/>
+  <path id="tD" class="track" d="M580 150 C 680 170, 790 160, 880 105"/>
+  <path id="tE" class="track" d="M880 105 L 950 95 C 1010 70, 1080 40, 1140 22"/>
+  <path id="parentPath" d="M60 285 C 210 205, 330 170, 520 160 L 580 150 C 680 170, 790 160, 880 105 L 950 95" fill="none"/>
+  <path id="childPath" d="M60 285 C 210 205, 330 170, 520 160 L 580 150 C 660 70, 780 80, 880 105 L 950 95" fill="none"/>
+  <g id="poles"></g>
+  <text x="60" y="312">BANGANGA · 762 m</text><text x="505" y="195">ADHKUWARI</text><text x="700" y="62">SANJICHHAT</text>
+  <text x="700" y="192">HIMKOTI · EV TRACK</text><text x="872" y="134">BHAWAN</text><text x="1010" y="24" text-anchor="end">BHAIRON GHATI · 2,017 m</text>
+  <circle class="walker" r="6"><animateMotion dur="26s" repeatCount="indefinite"><mpath href="#parentPath"/></animateMotion></circle>
+  <circle class="walker child" r="5"><animateMotion dur="26s" repeatCount="indefinite" begin="0.5s"><mpath href="#childPath"/></animateMotion></circle>
+</svg>
+</header>
+
+<section class="threaded" id="problem"><div class="thread"></div><div class="wrap">
+  <span class="eyebrow rv">The problem</span>
+  <h2 class="rv">Four ordinary facts defeat every tracker you can buy.</h2>
+  <div class="cols">
+    <div class="rv"><span class="num">01</span><h3>No usable network</h3><p>Cellular coverage congests in festivals and hides behind ridges. Consumer Bluetooth tags need a stranger's phone and its data connection to report anything.</p></div>
+    <div class="rv"><span class="num">02</span><h3>Cards see only gates</h3><p>The passive RFID card issued at registration answers within 1 to 3 m of a turnstile. Between two gates, kilometres apart, it is silent.</p></div>
+    <div class="rv"><span class="num">03</span><h3>Steel rain shelters</h3><p>Long stretches of path run under galvanised iron sheds. A grounded steel roof shields satellites from below and wristbands from above.</p></div>
+    <div class="rv"><span class="num">04</span><h3>No phones at the sanctum</h3><p>Phones go into cloakrooms before the inner shrine. A found child cannot be reunited by calling a parent whose phone is in a locker.</p></div>
+  </div>
+</div></section>
+
+<section class="alt threaded" id="how"><div class="thread"></div><div class="wrap">
+  <span class="eyebrow rv">How it works</span>
+  <h2 class="rv">A band that speaks, poles that listen, a server that knows the map.</h2>
+  <p class="lead rv">The wristband does not know where it is. Every 800 ms it broadcasts fifteen bytes: who I am for this quarter of an hour, my battery, whether my button is pressed, and a signature.</p>
+  <div class="frame rv" id="frame" aria-label="The fifteen bytes of a signed advertisement"></div>
+  <div class="legend rv" aria-hidden="true"><span style="grid-column:span 2">company</span><span>ver</span><span style="grid-column:span 2">slot</span><span style="grid-column:span 4">rolling ID</span><span>flags</span><span>batt</span><span style="grid-column:span 4">MIC · AES-CMAC</span></div>
+  <p class="slot rv" id="slot">slot 17 · the identifier and the radio address change every 15 minutes</p>
+  <div class="cols">
+    <div class="rv"><span class="num">Wristband</span><h3>Anonymous to a stranger</h3><p>The identifier and radio address are AES-CMAC outputs that rotate each slot. Without the key, one slot cannot be linked to the next.</p></div>
+    <div class="rv"><span class="num">Pole</span><h3>Says it once</h3><p>A pole under the roof hears a band a hundred times a minute and reports its arrival once, in chunks of 25, plus a 64-byte Bloom filter of who is still there. It holds no keys.</p></div>
+    <div class="rv"><span class="num">Radio</span><h3>Both sides of the roof</h3><p>Bluetooth listens below the steel; the LoRa antenna is led through it. The split pole avoids 24.1 dB of roof loss on one link and 18.4 dB on the other. <span class="tag">design values</span></p></div>
+    <div class="rv"><span class="num">Server</span><h3>Distance along the track</h3><p>Poles 173 and 174 are consecutive numbers and 3.0 km apart on foot. The server measures separation on the route graph and alerts at 200 m.</p></div>
+  </div>
+</div></section>
+
+<section class="dark threaded" id="numbers"><div class="thread"></div><div class="wrap">
+  <span class="eyebrow rv">What the numbers say</span>
+  <h2 class="rv">Airtime is the limit. Batching does the work; the Bloom filter keeps it legal.</h2>
+  <div class="stats">
+    <div class="stat rv"><div class="v">57.6<small>%</small></div><p>of uplink frames lost in a 3,000-wristband surge when every arrival is its own uplink.</p><span class="tag">calculated</span></div>
+    <div class="stat rv"><div class="v">21.3<small>%</small></div><p>lost with 25-tag chunks and a 64-byte heartbeat, once departure lists are dropped. 30.5% as first specified.</p><span class="tag">calculated</span></div>
+    <div class="stat rv"><div class="v">0.5<small>s</small></div><p>median time for an SOS to reach the control room. 92% arrive within 4 s under the surge.</p><span class="tag">simulated</span></div>
+    <div class="stat rv"><div class="v">99.7<small>%</small></div><p>of passengers at 20 km/h reported by a pole with 150 other wristbands in range; 95.0% with 300.</p><span class="tag">calculated</span></div>
+    <div class="stat rv"><div class="v">174<small>m</small></div><p>Bluetooth Coded PHY range under the roof at 98% delivery, from the paper's propagation model. Poles stand up to 108 m apart.</p><span class="tag">calculated</span></div>
+    <div class="stat rv"><div class="v">12.8<small>mo</small></div><p>on one coin cell at 25 °C on Coded PHY, 9.0 months at −5 °C.</p><span class="tag">calculated</span></div>
+  </div>
+  <figure class="rv"><img src="img/capacity.png" alt="Left: uplink frame loss against the number of wristbands in one gateway cell for four forwarding designs, with Monte Carlo points on the curves. Right: channel load of each design at 3,000 wristbands, split into arrivals, departure lists and heartbeat.">
+  <figcaption>One 8-channel gateway cell of 60 poles. A Monte Carlo run of 695,304 frames agrees with the formula to within 1.7 percentage points.</figcaption></figure>
+</div></section>
+
+<section class="threaded" id="audit"><div class="thread"></div><div class="wrap">
+  <span class="eyebrow rv">The audit</span>
+  <h2 class="rv">We recomputed our own white paper. Not all of it survived.</h2>
+  <p class="lead rv">The first draft called its results empirical. Nothing had been measured. So every checkable number was recomputed by open code, and the paper was revised to match.</p>
+  <div class="tally rv"><span><b>16</b>reproduced</span><span><b>16</b>differ</span><span><b>6</b>need a design fix</span><span><b>4</b>open</span></div>
+  <div class="fixes">
+    <div class="fix rv"><h3>The tether's scan</h3><p class="was">The parent tag listens for 5 ms every 5 s and alarms after four misses.</p><p class="is">A 5 ms window hears the band 0.48% of the time. The tag would be in false alarm 98% of the time. It needs 811 ms, or synchronised scanning.</p></div>
+    <div class="fix rv"><h3>The cold buzzer</h3><p class="was">A 100 µF capacitor holds the supply at 2.68 V during a 32 mA pulse at −5 °C.</p><p class="is">Its time constant is 4.2 ms against a 100 ms pulse. The supply falls to 1.61 V and the chip resets. It needs 895 µF, or a pulse under 29.8 mA.</p></div>
+    <div class="fix rv"><h3>Departure lists</h3><p class="was">15.8% frame loss at 3,000 wristbands; airtime cut by 82.4%.</p><p class="is">30.5% as specified. Departure lists cost more airtime than the heartbeat saves; without them, 21.3% and a cut of 72.1%.</p></div>
+    <div class="fix rv"><h3>Replay</h3><p class="was">Replayed frames are rejected.</p><p class="is">Alarms are signed and verified. Ordinary sightings are not, and can be replayed inside their 45-minute slot window. The server flags impossible speeds.</p></div>
+  </div>
+  <p style="margin-top:28px" class="rv"><a class="btn" href="audit.html">All 42 claims, one by one</a></p>
+</div></section>
+
+<section class="alt threaded" id="walk"><div class="thread"></div><div class="wrap">
+  <span class="eyebrow rv">End to end</span>
+  <h2 class="rv">One simulated family, 151 uplinks, and what the control room saw.</h2>
+  <p class="lead rv">A parent and a child reach the Adhkuwari junction and leave by different tracks. Every advertisement is a real signed frame; the poles run the real filter; one LoRa uplink in eight is dropped.</p>
+  <figure class="rv"><img src="img/walk.png" alt="Track distance of the parent tag and the child's band over time as reconstructed by the server, with the moment they take different branches, the moment the separation is flagged, and the SOS.">
+  <figcaption>The server flags the separation 105 s after they part, 243 m apart along the track, and raises the SOS 0.3 s after the button is pressed. <span class="tag">simulated</span></figcaption></figure>
+<pre><span class="c"># replay the same log yourself</span>
+git clone https://github.com/0xr4j/rakshasutra && cd rakshasutra
+pip install -e .
+rakshasutra trace examples/adhkuwari_separation.csv --registry examples/registry.json</pre>
+</div></section>
+
+<section class="threaded" id="read"><div class="thread"></div><div class="wrap">
+  <span class="eyebrow rv">Go as deep as you like</span>
+  <h2 class="rv">Play with it, read it, or run it.</h2>
+  <div class="cards">
+    <a class="card rv" href="explorer.html"><h3>The explorer</h3><p>Build a signed frame, crowd a gateway cell, fill a Bloom filter, drain a battery. Runs in your browser.</p><span class="go">Open →</span></a>
+    <a class="card rv" href="A-Thread-Through-the-Crowd-Rakshasutra.pdf"><h3>A Thread Through the Crowd</h3><p>The book: the design, every derivation worked through, and the audit. 43 pages.</p><span class="go">PDF →</span></a>
+    <a class="card rv" href="Rakshasutra-White-Paper-WP01.pdf"><h3>White Paper WP-01</h3><p>The architecture in 11 pages, revision 2, with the model's numbers.</p><span class="go">PDF →</span></a>
+    <a class="card rv" href="audit.html"><h3>The audit</h3><p>42 claims of the first draft, the recomputed value and the verdict for each.</p><span class="go">Read →</span></a>
+    <a class="card rv" href="https://github.com/0xr4j/rakshasutra"><h3>The code</h3><p>Python package and command line, C firmware core, 104 tests, every result and the script that wrote it.</p><span class="go">GitHub →</span></a>
+  </div>
+</div></section>
+
+<section class="alt threaded" id="next"><div class="thread"></div><div class="wrap">
+  <span class="eyebrow rv">What comes next</span>
+  <h2 class="rv">The next number should be a measurement.</h2>
+  <ol class="road">
+    <li class="done rv"><h3>Reference model</h3> <span class="tag">done</span><p>Package, firmware core, simulations, the book, the revised white paper and the audit.</p></li>
+    <li class="rv"><h3>Protocol revision</h3> <span class="tag">next</span><p>A synchronised tether, signed sightings, no departure lists, a channel reserved for SOS.</p></li>
+    <li class="rv"><h3>Bench radio</h3> <span class="tag">planned</span><p>Roof loss and range under a real steel shed; scanner capacity with many beacons; currents of the chosen chip.</p></li>
+    <li class="rv"><h3>Prototype, then a pilot</h3> <span class="tag">planned</span><p>Ten bands, three poles, one gateway. Then one zone, with the shrine authority's permission and a legal review.</p></li>
+  </ol>
+  <p class="rv">Have a GI shelter and an afternoon, experience with dense Bluetooth scanning, or a role in crowd safety? <a href="https://github.com/0xr4j/rakshasutra/issues/new?template=offer-data.yml">Offer a measurement or field access.</a></p>
+</div></section>
+
+<footer><div class="wrap">
+  <p><strong style="color:var(--ink)">Rakshasutra</strong> · Raj Jha, independent researcher · code under the MIT licence, text under CC BY 4.0.</p>
+  <p>A design study, not a safety system. Not peer reviewed. Place names follow the Shri Mata Vaishno Devi route as a model; the work is not commissioned or endorsed by the Shrine Board. Every number on this page is written from result files by script.</p>
+</div></footer>
+<script>
+/* Rakshasutra browser kernel: the same formulas as the Python reference, in plain JavaScript.
+ * tests/test_demo_parity.py runs this file under Node and compares it with Python. */
+(function (root) {
+  "use strict";
+  const SBOX = (function () {                      // AES S-box, generated rather than typed
+    const s = new Uint8Array(256); let p = 1, q = 1;
+    do {
+      p = p ^ ((p << 1) & 0xff) ^ (p & 0x80 ? 0x1b : 0);
+      q ^= q << 1; q ^= q << 2; q ^= q << 4; q &= 0xff; if (q & 0x80) q ^= 0x09;
+      const x = q ^ ((q << 1) | (q >> 7)) ^ ((q << 2) | (q >> 6)) ^ ((q << 3) | (q >> 5)) ^ ((q << 4) | (q >> 4));
+      s[p] = (x ^ 0x63) & 0xff;
+    } while (p !== 1);
+    s[0] = 0x63; return s;
+  })();
+  const RCON = [1, 2, 4, 8, 16, 32, 64, 128, 0x1b, 0x36];
+  const xt = (a) => ((a << 1) ^ (a & 0x80 ? 0x1b : 0)) & 0xff;
+
+  function aesEncrypt(key, block) {
+    const rk = new Uint8Array(176); rk.set(key);
+    for (let i = 16; i < 176; i += 4) {
+      let w = [rk[i - 4], rk[i - 3], rk[i - 2], rk[i - 1]];
+      if (i % 16 === 0) w = [SBOX[w[1]] ^ RCON[i / 16 - 1], SBOX[w[2]], SBOX[w[3]], SBOX[w[0]]];
+      for (let c = 0; c < 4; c++) rk[i + c] = rk[i - 16 + c] ^ w[c];
+    }
+    let s = Uint8Array.from(block, (b, i) => b ^ rk[i]);
+    for (let r = 1; r <= 10; r++) {
+      const t = new Uint8Array(16);
+      for (let c = 0; c < 4; c++) for (let i = 0; i < 4; i++) t[4 * c + i] = SBOX[s[(4 * (c + i) + i) % 16]];
+      if (r !== 10) {
+        for (let c = 0; c < 4; c++) {
+          const [a0, a1, a2, a3] = [t[4 * c], t[4 * c + 1], t[4 * c + 2], t[4 * c + 3]];
+          s[4 * c] = xt(a0) ^ xt(a1) ^ a1 ^ a2 ^ a3; s[4 * c + 1] = a0 ^ xt(a1) ^ xt(a2) ^ a2 ^ a3;
+          s[4 * c + 2] = a0 ^ a1 ^ xt(a2) ^ xt(a3) ^ a3; s[4 * c + 3] = xt(a0) ^ a0 ^ a1 ^ a2 ^ xt(a3);
+        }
+      } else s = t;
+      for (let i = 0; i < 16; i++) s[i] ^= rk[16 * r + i];
+    }
+    return s;
+  }
+  function dbl(b) {
+    const o = new Uint8Array(16);
+    for (let i = 0; i < 16; i++) o[i] = ((b[i] << 1) | (i < 15 ? b[i + 1] >> 7 : 0)) & 0xff;
+    if (b[0] & 0x80) o[15] ^= 0x87;
+    return o;
+  }
+  function aesCmac(key, msg) {
+    const k1 = dbl(aesEncrypt(key, new Uint8Array(16))), k2 = dbl(k1);
+    const n = Math.max(1, Math.ceil(msg.length / 16)), complete = msg.length > 0 && msg.length % 16 === 0;
+    const last = new Uint8Array(16), rem = msg.length - (n - 1) * 16;
+    last.set(msg.slice((n - 1) * 16));
+    if (!complete) last[rem] = 0x80;
+    let x = new Uint8Array(16);
+    for (let i = 0; i < n - 1; i++) x = aesEncrypt(key, x.map((b, j) => b ^ msg[16 * i + j]));
+    return aesEncrypt(key, x.map((b, j) => b ^ last[j] ^ (complete ? k1[j] : k2[j])));
+  }
+  const hex = (b) => Array.from(b, (x) => x.toString(16).padStart(2, "0")).join("");
+  const unhex = (s) => Uint8Array.from((s.match(/../g) || []).map((x) => parseInt(x, 16)));
+
+  function rollingId(key, c) { return aesCmac(key, [1, c & 0xff, (c >> 8) & 0xff]).slice(0, 4); }
+  function macAddress(key, c) { const m = aesCmac(key, [2, c & 0xff, (c >> 8) & 0xff]).slice(0, 6); m[0] |= 0xc0; return m; }
+  function buildFrame(key, c, flags, batteryCode, role) {
+    const f = new Uint8Array(15);
+    f[0] = 0x5a; f[1] = 0xff; f[2] = 4 | ((role & 1) << 4); f[3] = c & 0xff; f[4] = (c >> 8) & 0xff;
+    f.set(rollingId(key, c), 5); f[9] = flags & 0xff; f[10] = batteryCode & 0xff;
+    f.set(aesCmac(key, f.slice(2, 11)).slice(0, 4), 11);
+    return f;
+  }
+
+  function timeOnAir(appBytes, sf) {                // seconds; SF7..SF10, 125 kHz, coding rate 4/5
+    sf = sf || 7;
+    const n = Math.max(Math.ceil((8 * (appBytes + 13) - 4 * sf + 44) / (4 * sf)) * 5, 0);
+    return (Math.pow(2, sf) / 125000) * (8 + 4.25 + 8 + n);
+  }
+  function poisson(mean) {
+    const pmf = []; let p = Math.exp(-mean), total = 0, k = 0;
+    while (total < 1 - 1e-12 || k <= mean) {
+      pmf.push(p); total += p; k += 1; p *= mean / k;
+      if (k > mean + 60 * Math.sqrt(mean + 1) + 60) break;
+    }
+    return pmf;
+  }
+  function split(count, per, unit) {
+    const out = []; for (let i = 0; i < Math.floor(count / per); i++) out.push(per * unit);
+    if (count % per) out.push((count % per) * unit); return out;
+  }
+  function periodic(name, poles, period, mean, sizes) {
+    let frames = 0, air = 0;
+    poisson(mean).forEach((p, k) => sizes(k).forEach((b) => { frames += p; air += p * timeOnAir(b); }));
+    return { name, frames: (poles / period) * frames, air: (poles / period) * air };
+  }
+  /* Load and loss of one gateway cell; mirrors rakshasutra.capacity.cell_load. */
+  function cellLoad(arch, tags, poles, departures, passS, channels) {
+    poles = poles || 60; passS = passS || 55; channels = channels || 8;
+    const present = tags / poles, arrivals = (tags * 15) / (passS * poles), streams = [];
+    const rawBeat = () => periodic("heartbeat", poles, 60, present, (k) => split(k, 55, 4));
+    if (arch === "raw") streams.push({ name: "arrivals", frames: tags / 2, air: (tags / 2) * timeOnAir(7) });
+    else if (arch === "single") {
+      streams.push({ name: "arrivals", frames: tags / passS, air: (tags / passS) * timeOnAir(8) }); streams.push(rawBeat());
+    } else if (arch === "batch") {
+      streams.push(periodic("arrivals", poles, 15, arrivals, (k) => split(k, 27, 8))); streams.push(rawBeat());
+    } else {
+      streams.push(periodic("arrivals", poles, 15, arrivals, (k) => split(k, 25, 8)));
+      if (departures !== false) streams.push(periodic("departures", poles, 15, arrivals, (k) => split(k, 50, 4)));
+      const rate = (poles * (1 - Math.exp(-present))) / 60;
+      streams.push({ name: "heartbeat", frames: rate, air: rate * timeOnAir(64) });
+    }
+    const load = streams.reduce((a, s) => a + s.air, 0) / channels;
+    return { load, loss: 1 - Math.exp(-2 * load), streams };
+  }
+  function bloomFpr(tags) { return Math.pow(1 - Math.exp((-3 * tags) / 512), 3); }
+
+  function advEventMs(phy) {
+    if (phy === "1m") return (3 * (1 + 4 + 2 + 6 + 17 + 3) * 8) / 1000;
+    const pkt = (n) => (376 + (n * 8 + 27) * 8) / 1000;
+    return 3 * pkt(9) + pkt(29);
+  }
+  function batteryMonths(phy, cold, activeHours, advIntervalS) {
+    activeHours = activeHours === undefined ? 14 : activeHours; advIntervalS = advIntervalS || 0.8;
+    const tx = phy === "table" ? 1.25 : advEventMs(phy);
+    const ua = 1.8 + (14.2 * 1000 * tx) / (advIntervalS * 1000) + (4.6 * 1000 * 5) / 4000 + (3.8 * 1000 * 0.45) / 900000;
+    const daily = activeHours * ua + (24 - activeHours) * 0.6;
+    return { ua, months: ((620 * (cold ? 0.7 : 1) * 1000) / daily) / (365.25 / 12) };
+  }
+  function invNorm98() { return 2.0537489106318225; }
+  function bleRange(sensDbm, txDbm, roofDb, bodyDb) {
+    const budget = txDbm - 40.2 - bodyDb - roofDb - sensDbm - invNorm98() * 4.2;
+    return Math.pow(10, budget / 21.5);
+  }
+  function pulseVmin(capUf, pulseMa, onMs, offMs) {
+    const r = 42, v0 = 2.95, full = (pulseMa / 1000) * r, c = capUf * 1e-6;
+    if (c <= 0) return v0 - full;
+    const a = Math.exp(-(onMs / 1000) / (r * c)), b = Math.exp(-(offMs / 1000) / (r * c));
+    return v0 - (full * (1 - a)) / (1 - a * b);
+  }
+  const api = { aesCmac, buildFrame, rollingId, macAddress, timeOnAir, cellLoad, bloomFpr, advEventMs, batteryMonths,
+    bleRange, pulseVmin, hex, unhex };
+  if (typeof module !== "undefined" && module.exports) module.exports = api; else root.RS = api;
+})(typeof window !== "undefined" ? window : globalThis);
+
+(function(){
+  // poles as knots on the thread
+  var g=document.getElementById('poles'),ns='http://www.w3.org/2000/svg',pts=[];
+  [['tA',9,0],['tB',10,0],['tH',3,1],['tC',6,0],['tD',6,0],['tE',6,0]].forEach(function(t){
+    var p=document.getElementById(t[0]),L=p.getTotalLength();
+    for(var i=0;i<=t[1];i++){var q=p.getPointAtLength(L*i/t[1]);
+      if(pts.some(function(o){return Math.hypot(o.x-q.x,o.y-q.y)<6}))continue;
+      var c=document.createElementNS(ns,'circle');c.setAttribute('cx',q.x);c.setAttribute('cy',q.y);c.setAttribute('r',4.2);
+      c.setAttribute('class','pole'+(t[2]?' fib':''));g.appendChild(c);
+      var r=document.createElementNS(ns,'circle');r.setAttribute('cx',q.x);r.setAttribute('cy',q.y);r.setAttribute('r',4);r.setAttribute('class','ping');g.appendChild(r);
+      pts.push({x:q.x,y:q.y,ring:r,last:0});}
+  });
+  var still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(still){document.querySelectorAll('.route animateMotion').forEach(function(a){a.parentNode.setAttribute('transform','translate(600,150)');a.remove()});}
+  else{var ws=document.querySelectorAll('.route .walker');
+    (function tick(now){ws.forEach(function(w){var m=w.getCTM(),s=w.ownerSVGElement.getScreenCTM();if(!m||!s)return;
+        var b=w.getBoundingClientRect(),x=(b.left+b.width/2-s.e)/s.a,y=(b.top+b.height/2-s.f)/s.d;
+        pts.forEach(function(p){if(Math.hypot(p.x-x,p.y-y)<16&&now-p.last>1500){p.last=now;p.ring.style.animation='none';p.ring.getBoundingClientRect();p.ring.style.animation='ping 1.1s ease-out'}});});
+      requestAnimationFrame(tick)})(0);}
+  // the live frame: real AES-CMAC, a new slot every few seconds
+  var key=RS.unhex('000102030405060708090a0b0c0d0e0f'),slot=17,el=document.getElementById('frame'),cap=document.getElementById('slot'),prev=null;
+  function draw(){var f=RS.buildFrame(key,slot,0,150,0);el.innerHTML='';
+    f.forEach(function(b,i){var c=document.createElement('b');c.textContent=b.toString(16).padStart(2,'0');
+      if(i>=5&&i<=8)c.className='id';if(i>=11)c.className='mic';if(prev&&prev[i]!==b){c.classList.add('flip');setTimeout(function(){c.classList.remove('flip')},700)}el.appendChild(c)});
+    prev=f;cap.textContent='slot '+slot+' · radio address '+Array.from(RS.macAddress(key,slot),function(x){return x.toString(16).padStart(2,'0')}).join(':')+' · both change every 15 minutes';}
+  draw();if(!still)setInterval(function(){slot=(slot+1)&0xffff;draw()},3200);
+  // reveal on scroll
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+  document.querySelectorAll('.rv').forEach(function(n){io.observe(n)});
+})();
+</script>
+</body>
+</html>

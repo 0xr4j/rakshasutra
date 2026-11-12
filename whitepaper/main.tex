@@ -1,0 +1,440 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[a4paper,left=27mm,right=27mm,top=24mm,bottom=24mm]{geometry}
+\input{style.tex}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{caption}
+\captionsetup{font={small,sf},labelfont={bf,color=rsred},labelsep=quad,justification=raggedright,singlelinecheck=false}
+\titleformat{\section}{\sffamily\bfseries\large\color{rsink}}{\color{rsred}\thesection}{0.7em}{}
+\titleformat{\subsection}{\sffamily\bfseries\normalsize\color{rsink}}{\thesubsection}{0.7em}{}
+\titlespacing*{\section}{0pt}{2.2ex plus .5ex}{0.9ex}
+\titlespacing*{\subsection}{0pt}{1.6ex plus .4ex}{0.6ex}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\sffamily\footnotesize\color{rsmuted}Rakshasutra White Paper WP-01, revision 2}
+\fancyhead[R]{\sffamily\footnotesize\color{rsmuted}Design and calculation; not peer reviewed}
+\fancyfoot[C]{\sffamily\footnotesize\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\setlength{\parindent}{1em}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\topfraction}{0.9}\renewcommand{\dbltopfraction}{0.9}\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.8}\renewcommand{\dblfloatpagefraction}{0.8}\setcounter{topnumber}{3}\setcounter{dbltopnumber}{3}
+\begin{document}
+{%
+\noindent{\sffamily\footnotesize\bfseries\color{rsred}WHITE PAPER WP-01 \quad\color{rsmuted}REVISION 2 \quad NOVEMBER 2026}\par\vspace{7pt}
+\noindent{\sffamily\bfseries\fontsize{21}{25}\selectfont\color{rsink}Rakshasutra: a privacy-preserving, edge-filtered BLE and LoRaWAN architecture for finding separated pilgrims on mountain routes without cellular coverage\par}\vspace{9pt}
+\noindent{\sffamily\large Raj Jha}\quad{\sffamily\color{rsmuted}Independent researcher}\par\vspace{8pt}
+\thread\vspace{5pt}
+\noindent\begin{minipage}{\textwidth}\small\setlength{\parindent}{0pt}
+\textbf{Abstract.} Pilgrimage routes in the mountains are hard places to find a lost child or a collapsed elder. Cellular
+networks congest or disappear behind ridges, long steel rain shelters block radio, and phones must be left in cloakrooms
+before the inner shrine. Passive RFID cards see a pilgrim only within 1 to 3 m of a gate, and crowd-sourced Bluetooth
+trackers need other people's phones and a data connection. This paper describes Rakshasutra, a design that needs neither:
+a low-cost Bluetooth Low Energy wristband that broadcasts a signed, rotating pseudonym, and pole-mounted ESP32-S3 and
+SX1262 relays that filter what they hear and forward it over LoRaWAN in the Indian 865--867 MHz band, across a
+22.5 km route modelled on the Shri Mata Vaishno Devi trek with 255 poles. The wristband sends a 15-byte advertisement
+whose 32-bit identifier and radio address change every 15 minutes and whose 32-bit AES-CMAC lets the server reject forged
+alarms. Each pole reports an arrival once, in chunks of at most 25 wearables, and summarises who is still present as a
+fixed 64-byte Bloom filter, so no frame exceeds the 222-byte limit however dense the crowd. \textbf{Nothing in this paper
+has been built or measured.} Every result is calculated from the stated model or simulated, by open code that reproduces
+each number. For a surge of 3,000 wearables in one gateway cell the model gives \LossRak\% uplink frame loss for the
+design as specified and \LossRakNd\% once departure lists are dropped, against \LossSingle\% for one uplink per
+arrival; a simulated SOS reaches the control room in a median of \SosMedian~s, and within 4~s in \SosFour\% of cases.
+The audit behind this revision also found three mechanisms of the first draft that do not work as specified, and
+states the fix for each.\par\vspace{3pt}
+\textbf{Keywords:} AES-CMAC, BLE Coded PHY, Bloom filter, crowd localisation, edge filtering, LoRaWAN IN865, privacy,
+pseudonymous authentication.
+\end{minipage}\vspace{6pt}\thread\vspace{10pt}}
+
+\section{Introduction}
+The Shri Mata Vaishno Devi shrine in the Trikuta hills of Jammu and Kashmir receives about 9.5 to 10 million pilgrims a
+year, who walk or ride some 22.5 km of steep, branching mountain path. Children under twelve and people over sixty are
+the most likely to be separated from their group or to need help between checkpoints. Four conditions on such a route
+defeat the usual tools.
+
+\begin{enumerate}
+\item \textbf{Consumer Bluetooth trackers need strangers' phones.} Tags such as the Apple AirTag carry no satellite
+receiver or modem \cite{heinrich}. They are located when a nearby phone hears them and reports over the internet. On the
+trek the data network is congested or shadowed, and there is no common app.
+\item \textbf{Passive RFID sees only the gates.} The \emph{Yatra Parchi} card issued at registration is powered by the
+reader and answers within 1 to 3 m of a turnstile. Between gates it says nothing.
+\item \textbf{Steel shelters block radio.} Much of the path runs under galvanised iron (GI) sheds that protect pilgrims
+from rain and rockfall. A grounded corrugated roof attenuates signals that try to pass through it.
+\item \textbf{Phones are not allowed near the sanctum.} Phones are deposited in cloakrooms before the Bhawan complex. A
+guard who finds a lost child cannot call a parent whose phone is in a locker.
+\end{enumerate}
+
+Rakshasutra, named after the protective thread tied on the wrist, turns the problem round. Instead of a tracker that
+finds its own position, a reusable wristband costing an estimated INR 225--235 only announces itself, and poles already
+standing along the shelters, 25 to about 110 m apart, hear it and report to an on-premise server.
+
+\subsection*{Contributions}
+\begin{itemize}
+\item \textbf{A signed, pseudonymous advertisement.} A 15-byte frame carrying a 16-bit slot counter, a 32-bit identifier
+that rotates every 15 minutes, and a 32-bit truncated AES-CMAC \cite{rfc4493}. The server resolves it with one hash
+lookup; poles hold no keys.
+\item \textbf{An edge filter with bounded airtime.} A pole reports each wearable once on arrival, in chunks of at most
+200 bytes, and replaces the list of those present with a 64-byte Bloom filter \cite{bloom,kirsch}.
+\item \textbf{Alerts that keep up with people.} A direct tether between a child's band and a parent's tag, and a
+Class~C multicast of a wake token to the poles around a wearable, in place of slow Class~A downlinks.
+\item \textbf{Capture of passengers in electric vehicles}, by a fixed 800~ms advertising interval and a single-frame
+arrival rule on transit tracks, and a split-antenna pole that keeps both radios clear of the roof.
+\item \textbf{An executable audit.} Code that recomputes every number here, and a list of what the first draft got wrong
+(Section~\ref{sec:audit}).
+\end{itemize}
+
+\begin{finding}
+\textbf{Status of the evidence.} This is a design. The propagation figures (roof loss, path-loss exponent, body loss) are
+design values that have not been measured on the trek; currents are from the first draft's power table. Results are
+labelled \emph{calculated} when they follow from a formula and \emph{simulated} when they come from a Monte Carlo run.
+Code, parameters and results: \url{https://github.com/0xr4j/rakshasutra}.
+\end{finding}
+
+\section{Related work}
+\textbf{Printed QR bands and passive RFID} cost under INR~10 and are purely reactive: a child is found only at a reader
+or when someone scans the band. \textbf{Cellular and satellite trackers} give continuous positions under open sky, but
+suffer sky blockage and multipath under steel shelters, depend on base stations that saturate in a surge, cost over
+INR~2,500 with a SIM, and last a day or two. \textbf{Crowd-sourced tags} are cryptographically careful
+\cite{heinrich} but need dense, connected smartphones. \textbf{Camera-based recognition} struggles with shawls, caps
+and dim shelters. \textbf{Earlier BLE-to-LoRaWAN proposals} forward raw beacon addresses and signal strengths through
+Class~A nodes \cite{augustin,adelantado}; in a dense crowd this exceeds payload limits, collides heavily, exposes a fixed
+address to anyone listening, and cannot deliver a timely downlink. Table~\ref{tab:compare} summarises.
+
+\begin{table}[htb]\centering\footnotesize
+\caption{How the approaches compare on a covered mountain route. Entries for Rakshasutra are design targets and
+calculated values, not measurements.}\label{tab:compare}
+\begin{tabular}{@{}p{0.15\linewidth}p{0.13\linewidth}p{0.13\linewidth}p{0.14\linewidth}p{0.15\linewidth}p{0.17\textwidth}@{}}\toprule
+& Passive RFID or QR & GPS and cellular tracker & Consumer BLE tag & BLE with raw LoRaWAN forwarding & Rakshasutra\\\midrule
+Tracking between gates & No & Open sky only & Needs nearby phones & At low density & Yes, to the nearest pole\\
+Works without cellular & At gates & No & No & Yes & Yes\\
+Works under steel sheds & At gates & No & Poor & Poor with one antenna & Yes, with split antennas\\
+Works where phones are banned & No alert path & -- & No & No alert path & Kiosks and the parent tag\\
+Resists stalking and replay & Static ID & SIM encryption & Rotating key & None & Rotating pseudonym, signed SOS\\
+Loss with 3,000 tags in a cell & -- & -- & -- & \LossSingle\% (calculated) & \LossRakNd--\LossRak\% (calculated)\\
+Wearable battery & None & 1--2 days & About a year & Months & \LifeColdCoded--\LifeWarmCoded{} months on Coded PHY (calculated)\\
+\bottomrule\end{tabular}\end{table}
+
+\section{System model}
+\subsection{The route as a graph}
+The route is a weighted graph $G=(V,E,W)$. $V$ is the set of $N=255$ poles, at altitudes between 762~m and 2,017~m.
+$E$ joins adjacent poles along six zones: zone~1, the old track and its stairways (6.0~km); zone~2, Tarakote Marg
+(7.0~km); zone~3, the Adhkuwari junction (0.5~km); zone~4, the Himkoti electric-vehicle track and the Sanjichhat track
+(6.5~km together); zone~5, the Bhawan complex, skywalk and cloakrooms (1.0~km); and zone~6, the climb to Bhairon Ghati
+(1.5~km). $W$ gives each edge its length in metres. The route splits at Banganga and again at Adhkuwari, so the
+difference of two pole numbers says little about how far apart two people are. Separation is the shortest path:
+\begin{equation}d_G(p_a,p_b)=\min_{\pi\in\Pi(p_a,p_b)}\sum_{e\in\pi}w(e).\label{eq:geo}\end{equation}
+In the reference layout the last pole of the Himkoti track and the first pole of the Sanjichhat track carry consecutive
+numbers and are \BranchExample~km apart by track. The 60 poles of zones~3 and~5 use the shrine's fibre network; the
+other 195 use LoRaWAN, which over 21.0~km of track is one pole per 108~m on average.
+
+\subsection{Radio under a steel roof}
+Pilgrims walk under GI shelters about 3.2~m high and 4.5~m wide. Let $L_{GI}(f)$ be the loss through the roof. The
+design values are 18.4~dB at 866~MHz and 24.1~dB at 2.44~GHz; both await measurement. A pole mounted wholly above the
+roof loses 24.1~dB on the Bluetooth link from a wrist below, on top of body shadowing of 8 to 16~dB. A pole wholly below
+the roof loses 18.4~dB on its LoRa link to a hilltop gateway. Rakshasutra splits the two.
+
+\textbf{Bluetooth below the roof.} The ESP32-S3 enclosure is clamped under the roof truss at 3.0~m with a clear view
+down. The received power at distance $d$ follows a log-distance model:
+\begin{equation}P_{rx}(d)=P_{tx}+G_{tx}+G_{rx}-PL(d_0)-10\,n\log_{10}(d/d_0)-L_{body}-X_\sigma,\label{eq:ble}\end{equation}
+with $P_{tx}=+8$~dBm, $PL(d_0{=}1\,\mathrm{m})=40.2$~dB, exponent $n=2.15$ under the roof, $L_{body}=14$~dB in a heavy
+crowd, and shadowing $X_\sigma\sim\mathcal N(0,\sigma^2)$, $\sigma=4.2$~dB. Antenna gains are taken as 0~dB. With
+Coded PHY ($S=8$, sensitivity $-103$~dBm) \cite{btcore} the margin at 50~m is \MarginFifty~dB, and 98\% of frames clear
+the sensitivity out to \RangeCoded~m (\RangeOneM~m on 1M PHY). A pole above the roof with a $+4$~dBm, 1M PHY wearable
+reaches \RangeAbove~m.
+
+\textbf{LoRa above the roof.} One metre of RG-316 (0.9~dB) carries the SX1262 output through a gland to a 3~dBi whip
+above the ridge. With $P_{tx}=+14$~dBm, a gateway antenna of 5.8~dBi and an SX1302 sensitivity of $-126.5$~dBm at SF7, the
+maximum allowable path loss is \Mapl~dB. The paper does not fix a path-loss model for the valley, so no range is
+claimed. As an indication, free-space loss plus one ridge of an assumed 20~dB leaves a margin of \MarginEightOver~dB at
+8~km with the whip above the roof, and $-$\MarginEightUnder~dB with an internal antenna below it.
+
+\begin{table}[htb]\centering\footnotesize
+\caption{Link budget recomputed from Eq.~\ref{eq:ble} and the stated parameters (calculated, not measured). Bluetooth
+rows give the distance at which 98\% of frames clear the receiver sensitivity; LoRa rows give the margin at 8~km behind
+one assumed 20~dB ridge.}\label{tab:link}
+\TableLink\end{table}
+
+\begin{figure}[htb]\centering\includegraphics[width=0.72\linewidth]{link}
+\caption{Share of frames above sensitivity against distance, from Eq.~\ref{eq:ble}.}\label{fig:link}\end{figure}
+
+\section{Pseudonymous protocol}
+\subsection{Threats}
+Four adversaries are considered. $\mathcal A_1$ listens along the route and tries to follow one child or to link a
+family. $\mathcal A_2$ records advertisements and plays them back elsewhere or later. $\mathcal A_3$ sends forged
+commands to make a band buzz or to drain it. $\mathcal A_4$ steals a pole or a band and reads its memory.
+
+\subsection{Keys}
+The server keeps a 128-bit master key $\Kmaster$ in an encrypted keystore or a hardware security module. Each wearable
+$u$ is given, at manufacture, its own key
+\begin{equation}K_u=\cmac{\Kmaster}{\mathrm{UID}_u\,\|\,\mathrm{Salt}},\end{equation}
+and its debug port is locked. Poles never hold $\Kmaster$ or any $K_u$. They authenticate to the network server with
+their own LoRaWAN keys, protected by secure boot and flash encryption, and a tamper switch clears their memory.
+
+\subsection{The 15-byte advertisement}
+A wearable keeps a 16-bit counter $c$ driven by its 32.768~kHz crystal and increases it every 900~s. In each slot it
+derives a fresh identifier and a fresh radio address:
+\begin{align}\mathrm{ID}_{u,c}&=\operatorname{Trunc}_{32}\cmac{K_u}{\texttt{0x01}\,\|\,c},\\
+M_{u,c}&=\operatorname{Trunc}_{46}\cmac{K_u}{\texttt{0x02}\,\|\,c}\ \text{with both top bits set.}\end{align}
+It broadcasts the payload of Table~\ref{tab:frame} every 800~ms, and every 200~ms while SOS is pressed. Because the
+counter is sent, nothing needs to be written to the wearable at registration. Three encodings left open in the first
+draft are fixed by the reference code: truncation keeps the leading bytes of the CMAC, the counter enters each CMAC as
+the same little-endian bytes it has on air, and the company identifier is sent low byte first.
+
+\begin{table}[htb]\centering\footnotesize
+\caption{The signed advertisement payload.}\label{tab:frame}
+\begin{tabular}{@{}llp{0.62\linewidth}@{}}\toprule Bytes & Field & Content\\\midrule
+0--1 & Company\_ID & \code{0xFF5A}, a laboratory value\\
+2 & V\_type & bits 0--3 version (4); bit 4 role: band or parent tag\\
+3--4 & Slot\_Counter & $c$, little-endian\\
+5--8 & Rolling\_ID & $\mathrm{ID}_{u,c}$\\
+9 & F\_stat & bit 0 SOS; 1 tether lost; 2 buzzer on; 3 low battery\\
+10 & B\_mv & supply voltage in 20~mV steps\\
+11--14 & MIC & $\operatorname{Trunc}_{32}\cmac{K_u}{\text{bytes }2\ldots10}$\\\bottomrule\end{tabular}\end{table}
+
+\subsection{Resolving an identifier}
+At the registration counter the operator scans the family's card and the codes on the band and the parent tag, and rests
+both on a listener pad. Lifting a band off its storage magnet wakes it. The pad hears one frame, checks its MIC and that
+the battery is above 2.90~V, and stores the counter it saw, $c_{init}$, with the time $t_{pair}$. At any later time $t$
+the server expects
+\begin{equation}\hat c_u(t)=\Bigl(c_{init}+\Bigl\lfloor\tfrac{t-t_{pair}}{900}\Bigr\rfloor\Bigr)\bmod 65536,\end{equation}
+and keeps the identifiers of slots $\hat c_u-1$, $\hat c_u$, $\hat c_u+1$ in a hash map, which covers crystal drift of
+$\pm20$~ppm. Among 10,000 wearables there is about a \Clash\% chance at any moment that two entries share a 32-bit
+identifier, so the map holds a list per identifier and separates a clash by the counter.
+
+\begin{algo}{Algorithm 1: verification and location at the server}
+\textbf{Input:} pole, Rolling\_ID, $c$, RSSI, F\_stat, and for an SOS the whole frame.\par
+1.\ Look up Rolling\_ID. If there is no entry whose slot equals $c$ within $\{\hat c_u-1,\hat c_u,\hat c_u+1\}$: count it
+against the pole and \textbf{drop}.\par
+2.\ If the SOS bit is set: recompute the MIC over bytes 2--10 with $K_u$. If it differs: count a forgery and
+\textbf{drop}. Otherwise raise the \textbf{priority alarm}.\par
+3.\ Among reports for $u$ in the last 15~s, place $u$ at the pole with the strongest signal.\par
+4.\ If a wearable appears to have moved faster than any vehicle on the track, flag the sighting as suspect.
+\end{algo}
+
+\subsection{What the protocol gives, and what it does not}
+\textbf{Unlinkability against $\mathcal A_1$.} AES-CMAC is a pseudorandom function \cite{rfc4493}, so without $K_u$ the
+identifiers and addresses of different slots are indistinguishable from random strings. Within one 15-minute slot a
+wearable can be followed.
+
+\textbf{Unforgeable alarms against $\mathcal A_2$ and $\mathcal A_3$.} A forged SOS or a forged wake token passes with
+probability $2^{-32}$ or $2^{-24}$ per attempt. A pole forwards at most ten SOS frames a minute and a wearable accepts
+at most one command in 30~s.
+
+\textbf{A stated limit: replay of ordinary sightings.} Arrival reports are 8 bytes and carry no MIC, and a pole has no
+key with which to check one. A frame recorded at one pole and replayed at another inside its three-slot window, up to
+45 minutes, is therefore accepted as a sighting. It cannot raise an alarm, and step~4 flags it when the implied speed
+is impossible, but it can mislead. Carrying the MIC in arrival reports would close this at a cost of 4 bytes a wearable.
+
+\section{Edge filtering and capacity}
+\subsection{Time on air and collisions}
+In the IN865 band \cite{rp002,wpc} the design uses $M=8$ channels of 125~kHz at coding rate 4/5 with an 8-symbol
+preamble. A symbol lasts $T_{sym}=2^{SF}/BW$, 1.024~ms at SF7. For an application payload of $B$ bytes the LoRaWAN
+frame is $13+B$ bytes and its time on air is \cite{semtech}
+\begin{equation}T(B)=T_{sym}\Bigl(12.25+8+\max\Bigl(\Bigl\lceil\frac{8(13+B)-4\,SF+44}{4\,SF}\Bigr\rceil\cdot 5,\,0\Bigr)\Bigr).\end{equation}
+At SF7 this gives \ToaSos~ms for an SOS (15 or 16 bytes), \ToaBloom~ms for a 64-byte heartbeat and \ToaChunk~ms for a
+200-byte chunk of 25 arrivals. Uplinks are unsynchronised, so they collide as in pure ALOHA: with offered load $G$ per
+channel a frame is lost with probability $1-e^{-2G}$. Capture and the partial orthogonality of spreading factors are
+ignored, which makes the figures pessimistic.
+
+\subsection{The pole's state machine}
+A raw list of 4-byte identifiers every minute would exceed 222 bytes as soon as more than 55 people shelter at one pole.
+Each pole therefore runs Algorithm~2 over a table of 1,024 entries.
+
+\begin{algo}{Algorithm 2: edge filter at a pole}
+\textbf{On each advertisement} with signal strength $r$:\par
+1.\ Ignore it unless it is 15 bytes with Company\_ID \code{0xFF5A}.\par
+2.\ If the SOS bit is set, fewer than 10 SOS were sent this minute, and this identifier was not forwarded in the last
+90~s: \textbf{send now}, confirmed, on port 10, the frame and one byte of $r$; repeat at SF9 if unacknowledged.\par
+3.\ If $r$ is below the gate ($-75$~dBm on tracks, $-65$~dBm in hubs): stop.\par
+4.\ Update the entry: $\mathrm{RSSI}\leftarrow0.75\,\mathrm{RSSI}+0.25\,r$, count the hit, note the time.\par
+5.\ When the hits reach $H$ ($H=1$ on tracks, $3$ in hubs) and the arrival is not yet reported: queue the 8-byte tuple
+(identifier, $c$, RSSI, flags) and mark it reported.\par
+\textbf{Every 15 s}, after a random 200--1500~ms:\par
+6.\ Move entries unheard for 90~s to the departure queue.\par
+7.\ Send arrivals in chunks of at most 25 tuples (200 bytes) on port 1.\par
+8.\ Send departures, 4 bytes each, at most 50 a frame, on port 2.\par
+\textbf{Every 60 s:}\par
+9.\ Set three bits per reported identifier in a 512-bit filter, at $(\mathrm{CRC16}+j\cdot\mathrm{FNV1a})\bmod512$,
+$j=0,1,2$, and send the 64 bytes on port 3.
+\end{algo}
+
+The gate of $-75$~dBm corresponds, by Eq.~\ref{eq:ble}, to about \GateTrackM~m, which is the ``core zone'' a pole
+reports as its own. The appended signal-strength byte on port 10 is new in this revision: without it the server cannot
+tell which of several poles that hear an SOS is nearest.
+
+\subsection{Capacity of a gateway cell}
+Consider $N$ wearables in a cell of $K=60$ poles, each reaching a new pole every $\tau=55$~s. A pole then sees Poisson
+arrivals at $N/(\tau K)$ per second and holds $N/K$ wearables on average. Table~\ref{tab:cap} gives the offered load
+and loss for four designs, with every stream of each design counted. A Monte Carlo simulation that puts every frame of
+an hour on air, \McFrames{} frames in all, agrees with the loss formula to within \McErr{} percentage points.
+
+\begin{table}[htb]\centering\footnotesize
+\caption{Offered load $G$ and frame loss, in percent, as ``$G$ / loss'', for one 8-channel cell of 60 poles at SF7
+against the number of wearables in the cell (calculated).}\label{tab:cap}
+\TableCapacity\end{table}
+
+\begin{figure}[htb]\centering\includegraphics[width=\linewidth]{capacity}
+\caption{Left: frame loss against the size of the surge; squares are the Monte Carlo check. Right: where the airtime
+goes at 3,000 wearables.}\label{fig:cap}\end{figure}
+
+Three things follow. First, batching does most of the work: from \LossSingle\% loss to \LossBatch\% at 3,000
+wearables. Second, the Bloom heartbeat is what keeps every frame legal: at 3,000 wearables a raw list would be too long
+for one frame at \OversizeBatch\% of poles, while the filter is always 64 bytes; it also needs less airtime than raw
+lists once a cell holds more than about \BloomPays{} wearables. Third, the departure lists of step~8 cost more than the
+heartbeat saves. As specified the design carries \AirVsBatch\% more airtime than plain batching and loses \LossRak\% of
+frames. Without departure lists, inferring departure from the next arrival and the heartbeat, it carries
+\AirVsBatchNd\% less and loses \LossRakNd\%. Against one uplink per arrival the airtime falls by \AirRed\% as specified
+and by \AirRedNd\% without departure lists.
+
+In the deployed layout a gateway serves about \DepPoles{} LoRa poles. With 5,000 wearables spread evenly over the route
+a cell holds \DepTags{} of them and loses \DepLoss\% of frames, or \DepLossNd\% without departure lists.
+
+A filter of 512 bits with three probes gives \BloomFifty\% false positives with 50 wearables at a pole,
+\BloomHundred\% with 100 and \BloomThree\% with 300; it holds about \BloomCapFive{} at a 5\% error rate. The server
+therefore uses a heartbeat only to confirm wearables it already places at that pole. The densest poles are on fibre and
+can send a larger filter.
+
+\section{Alerts and moving people}
+\subsection{Why Class A is too slow}
+A Class~A design needs 15~s to batch an arrival, 90~s to confirm a separation, up to 60~s for a downlink window and 8~s
+to connect to the band: 173~s in the worst case. At 1.25~m/s a parent walks \ClassAWalk~m in that time, past several
+poles. Rakshasutra uses two layers instead.
+
+\subsection{Layer 1: a direct tether}
+At pairing the pad writes the band's next 96 identifiers, 384 bytes covering 24 hours, into the parent tag. The tag
+scans periodically, and if it misses the band four times in a row it sounds its own buzzer, with no network involved.
+
+\begin{finding}
+\textbf{Two corrections to the first draft.} It specified a 5~ms scan every 5~s. The band advertises every 800~ms, so a
+5~ms window contains a whole advertisement only \TetherHit\% of the time, and four scans in a row all miss
+\TetherAlarm\% of the time with the child beside the parent (simulated: in false alarm \TetherAlarmSim\% of the time).
+A window of \TetherWindow~ms cannot miss, but costs \TetherUa~\textmu A and would empty the parent tag in about
+\ParentLife{} months; synchronised scanning is the better route and is future work. Second, the signal is lost at the
+edge of radio range, about \TetherRange~m by Eq.~\ref{eq:ble}, not at 25--30~m. To alert at 30~m the tag must treat a
+signal weaker than about $-$\TetherGate~dBm as a miss.
+\end{finding}
+
+\subsection{Layer 2: Class C multicast}
+When the server finds $d_G\geq200$~m between a band and its parent tag, or a guard starts a search, it sends an 8-byte
+wake token to the poles within two hops of the wearable, all of which listen continuously in Class~C. They broadcast
+it as a connectionless advertisement and the wearable, which opens a short scan window every 4~s, sounds its buzzer.
+The token is the identifier, a command byte and 24 bits of AES-CMAC. The design target is 2.5 to 5~s from decision to
+buzzer; it has not been simulated or measured, and the wearable's short scan window raises the same timing question as
+the tether.
+
+\subsection{Passengers at 20 km/h}
+An electric vehicle at 5.56~m/s crosses a pole's 25~m core zone in 4.5~s. A band that slows its advertising to one
+every 2 to 5~s when its accelerometer sees no motion sends at most two or three frames in that time, so a three-hit
+rule reports it on at most \SlowTwo\% of passes. With a fixed 800~ms interval the pass holds five or six frames, and
+with $H=1$ one decoded frame is enough. If a frame is lost only when another wearable in range is on air at the same
+moment, the capture rate is \EvCap\% with 150 other wearables in range of the pole and \EvCapDense\% with 300
+(calculated; Fig.~\ref{fig:tether}).
+
+\begin{figure}[htb]\centering\includegraphics[width=\linewidth]{tether_ev}
+\caption{Left: the tether scan window against how often the parent tag hears the band and how long it spends in false
+alarm (simulated). Right: capture of a passenger at 20~km/h against the crowd around the pole.}\label{fig:tether}\end{figure}
+
+\subsection{An SOS, end to end}
+Pressing the button sets the SOS bit and the 200~ms interval. A pole forwards the frame at once. Under a 3,000-wearable
+surge the first LoRa attempt is lost \SosFirstLoss\% of the time; a repeat follows at SF9 after an assumed 3~s. In
+simulation the alarm reaches the control room in a median of \SosMedian~s, within 4~s in \SosFour\% of cases, and
+within \SosPninefive~s in 95\%. On fibre poles, where the densest crowds are, 95\% arrive within \SosFiberP~s.
+
+\subsection{Backend}
+Gateways and fibre poles publish to an MQTT broker; identity resolution and the graph distance run in memory; a worker
+writes batches of 500 to 2,500 records to a time-series database every 5~s. These components are specified, not built.
+
+\section{Power}
+\begin{table}[htb]\centering\footnotesize
+\caption{Wearable current on a 620~mAh CR2450, as tabled in the first draft (design values).}\label{tab:power}
+\TablePower\end{table}
+Table~\ref{tab:power} sums to \Iactive~\textmu A. At 14 hours a day on the trek and 10 on the storage rack this gives
+\LifeWarm{} months at 25~\textdegree C, and \LifeCold{} months at $-5$~\textdegree C where the cell loses 30\% of its
+capacity. But 1.25~ms per advertisement is the length of a 1M PHY event on three channels. On Coded PHY, which the
+range in Section~3 assumes, the same 15 bytes take \AdvCoded~ms: three \code{ADV\_EXT\_IND} packets and one
+\code{AUX\_ADV\_IND}. The mean current is then \IactiveCoded~\textmu A and the life \LifeWarmCoded{} months warm and
+\LifeColdCoded{} months cold (Fig.~\ref{fig:power}).
+
+\begin{figure}[htb]\centering\includegraphics[width=\linewidth]{power}
+\caption{Left: battery life by PHY and temperature. Right: lowest supply voltage during a buzzer pulse in the cold
+against the size of the hold-up capacitor (calculated).}\label{fig:power}\end{figure}
+
+\textbf{The cold buzzer pulse.} At $-5$~\textdegree C the cell's internal resistance rises to about 42~$\Omega$. A
+32~mA buzzer and LED pulse then drops $0.032\times42=1.34$~V, taking a 2.95~V cell to \DroopUnbuf~V, below the
+1.70~V minimum of the radio chip. The first draft added a 100~\textmu F capacitor and a 20\% duty cycle and reasoned
+from the average current. That does not hold: 100~\textmu F behind 42~$\Omega$ has a time constant of \TauMs~ms, far
+shorter than a 100~ms pulse, so the supply still falls to \DroopCap~V. Either the capacitor must be at least
+\CapNeed~\textmu F, or the pulse current must stay below \PulseMax~mA.
+
+\textbf{Choice of chip.} The first draft named the nRF52811 with $+8$~dBm output. That part is specified to $+4$~dBm;
+$+8$~dBm needs a part such as the nRF52820 or nRF52833. This is to be confirmed against the datasheets before the
+bill of materials is fixed, and the currents in Table~\ref{tab:power} re-derived for the chosen part.
+
+\section{Law, ethics and physical safety}
+\textbf{Data protection.} Section~9 of India's Digital Personal Data Protection Act, 2023 \cite{dpdp} requires
+verifiable consent from a parent or guardian before a child's data are processed, and forbids tracking for behavioural
+monitoring or advertising. Rakshasutra records consent at registration, keeps only a first name, a band identifier, a
+guardian's phone number and the card number, sends no personal data over the air, and deletes location trails within
+24 to 72 hours of the band's return.
+
+\textbf{Kiosks.} Lookup kiosks in the phone-free zones respond only to the family's own card or parent tag, show only
+the members bound to it, do not search by name, lock after three failed scans, log every query and blank after 30~s.
+
+\textbf{Button cells.} A swallowed coin cell can cause severe internal burns \cite{iec}. The band is welded shut or
+closed with captive tool-only screws, has no battery door, and uses a non-porous strap that is disinfected between
+uses.
+
+\section{What changed since the first draft}\label{sec:audit}
+The first draft of this paper (October 2026) called the system SurakshaNet in its text and described its results as
+empirical. Neither was right: the name is Rakshasutra, and nothing has been measured. For this revision every
+checkable number was recomputed by the open code. Of \AuditTotal{} claims, \AuditRep{} were reproduced, \AuditDiff{}
+differ and now carry the model's value, \AuditFix{} need a design fix, and \AuditOpen{} cannot be settled without a
+datasheet or a measurement. The full list is in \code{AUDIT.md} in the repository. The main changes:
+\begin{itemize}
+\item Loss in a 3,000-wearable surge is \LossRakNd--\LossRak\%, not 15.8\%; the first draft counted only part of the
+traffic of Algorithm~2. Departure lists should be dropped.
+\item The airtime saving over single-event forwarding is \AirRed--\AirRedNd\%, not 82.4\%.
+\item The tether cannot work with a 5~ms scan window, and alerts at the edge of radio range unless it uses a
+signal-strength gate.
+\item A 100~\textmu F capacitor does not prevent brown-out during the cold buzzer pulse.
+\item Battery life on Coded PHY is \LifeColdCoded--\LifeWarmCoded{} months, not ``over 11 months'' in the cold.
+\item Bluetooth ranges from Eq.~\ref{eq:ble} are longer than first tabled; the 50~m margin is \MarginFifty~dB, not
+28.6~dB.
+\item Ordinary sightings can be replayed inside their slot window; only alarms are fully authenticated.
+\item An SOS arrives within 4~s in \SosFour\% of simulated cases under a surge, not in all.
+\end{itemize}
+
+\section{Conclusion}
+Rakshasutra combines a signed, rotating Bluetooth advertisement with poles that filter at the edge and forward over
+LoRaWAN, to follow vulnerable pilgrims between the gates of a covered mountain route without phones or cellular
+coverage. The calculations support the core of the design: frames stay within the payload limit at any density,
+batching and a Bloom heartbeat cut airtime by well over half, passengers in vehicles are captured, and forged alarms
+are rejected. They also show where it must change before hardware is built: the tether's scanning, the departure
+lists, the buzzer's power supply and the choice of radio chip. The next step is measurement: roof loss and range under
+a real shelter, then a pilot on one zone. Later work may extend the approach to tunnel construction sites and to
+temporary gatherings such as the Kumbh Mela.
+
+\begin{thebibliography}{99}\footnotesize
+\bibitem{rp002} LoRa Alliance, \emph{RP002-1.0.4 LoRaWAN Regional Parameters}, 2022.
+\bibitem{semtech} Semtech, \emph{LoRa Modem Designer's Guide}, AN1200.13.
+\bibitem{rfc4493} J.~Song, R.~Poovendran, J.~Lee, T.~Iwata, ``The AES-CMAC algorithm,'' RFC~4493, IETF, 2006.
+\bibitem{btcore} Bluetooth SIG, \emph{Bluetooth Core Specification}, version 5.1, 2019.
+\bibitem{bloom} B.~H.~Bloom, ``Space/time trade-offs in hash coding with allowable errors,'' \emph{Commun.\ ACM}
+13(7):422--426, 1970.
+\bibitem{kirsch} A.~Kirsch, M.~Mitzenmacher, ``Less hashing, same performance: building a better Bloom filter,''
+\emph{Random Struct.\ Algorithms} 33(2):187--218, 2008.
+\bibitem{dpdp} Government of India, \emph{The Digital Personal Data Protection Act, 2023} (No.~22 of 2023), Section~9.
+\bibitem{wpc} Wireless Planning and Coordination Wing, Government of India, rules for low-power equipment in the
+865--867~MHz band.
+\bibitem{augustin} A.~Augustin, J.~Yi, T.~Clausen, W.~M.~Townsley, ``A study of LoRa: long range and low power networks
+for the Internet of Things,'' \emph{Sensors} 16(9):1466, 2016.
+\bibitem{centenaro} M.~Centenaro, L.~Vangelista, A.~Zanella, M.~Zorzi, ``Long-range communications in unlicensed bands,''
+\emph{IEEE Wireless Commun.}\ 23(5):60--67, 2016.
+\bibitem{adelantado} F.~Adelantado et al., ``Understanding the limits of LoRaWAN,'' \emph{IEEE Commun.\ Mag.}\
+55(9):34--40, 2017.
+\bibitem{heinrich} A.~Heinrich, M.~Stute, T.~Kornhuber, M.~Hollick, ``Who can find my devices? Security and privacy of
+Apple's crowd-sourced Bluetooth location tracking system,'' \emph{Proc.\ Privacy Enhancing Technol.}\ 2021(3):227--245.
+\bibitem{nordic} Nordic Semiconductor, \emph{nRF52811 Product Specification}.
+\bibitem{iec} IEC 60086-4, \emph{Primary batteries, Part 4: Safety of lithium batteries}.
+\end{thebibliography}
+\nocite{centenaro,nordic}
+\end{document}

@@ -1,0 +1,9 @@
+# Built files are kept out of the language bar; hand-written source is counted.
+docs/index.html linguist-generated
+docs/explorer.html linguist-generated
+docs/audit.html linguist-generated
+generated/** linguist-generated
+results/** linguist-generated
+*.pdf binary
+*.png binary
+*.gif binary

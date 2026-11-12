@@ -1,0 +1,9 @@
+{
+  "title": "Rakshasutra: a reference model of a privacy-preserving BLE and LoRaWAN system for finding separated pilgrims",
+  "upload_type": "software",
+  "version": "2026.11",
+  "description": "Rakshasutra is an open design for finding separated children and elders on a mountain pilgrimage route without phones or cellular coverage: a wristband that broadcasts a signed, rotating pseudonym over Bluetooth Low Energy, poles that filter at the edge, and LoRaWAN in the IN865 band. This release contains a Python reference model and command line, a C firmware core tested byte for byte against it, Monte Carlo simulations, a browser explorer, the book 'A Thread Through the Crowd', White Paper WP-01 (revision 2) and an audit of every checkable number in the paper's first draft. All results are calculated or simulated; nothing has been built or measured. Not peer reviewed.",
+  "creators": [{"name": "Jha, Raj", "affiliation": "Independent researcher"}],
+  "license": "MIT",
+  "keywords": ["BLE", "LoRaWAN", "crowd localisation", "privacy", "AES-CMAC", "Bloom filter", "edge filtering", "pilgrimage safety"]
+}

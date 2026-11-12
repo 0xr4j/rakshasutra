@@ -1,0 +1,21 @@
+{
+ "note": "Demonstration keys derived from a public test master key. Never use them on a real device.",
+ "tags": [
+  {
+   "uid": "band-0421",
+   "key": "45fdeb0e78e3e7fa12c6cada356d6910",
+   "c_init": 17,
+   "t_pair": 0.0,
+   "family": "family-0421",
+   "role": "band"
+  },
+  {
+   "uid": "tag-0421",
+   "key": "c311618227f35785176705814ca348f7",
+   "c_init": 40,
+   "t_pair": 0.0,
+   "family": "family-0421",
+   "role": "parent"
+  }
+ ]
+}

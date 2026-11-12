@@ -1,0 +1,17 @@
+name: Report a problem
+description: A bug in the code, a wrong number, or an unclear sentence.
+title: "[Problem] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What is wrong?
+      description: Where you saw it (file, page, book section or explorer panel) and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: How to see it
+      description: Commands you ran or steps in the explorer, if any.
